@@ -1,0 +1,7 @@
+{
+    "loginScreen" : {
+        "login" :" Login",
+        "email" : "email",
+        "password" : "Password"
+    }
+}

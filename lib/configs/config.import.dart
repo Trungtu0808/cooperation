@@ -1,0 +1,1 @@
+export 'package:app_chat_firebase/configs/app_config.dart';
