@@ -77,7 +77,7 @@ class _MyAppState extends State<MyApp> {
                 darkTheme: AppTheme.getTheme(isDark: true),
                 routerDelegate: AutoRouterDelegate(
                   widget.appRoute,
-                  initialRoutes: [SignRoute()],
+                  initialRoutes: [SignInRoute()],
                   navigatorObservers: () => [AutoRouteObserver()],
                 ),
                 routeInformationParser: widget.appRoute.defaultRouteParser(),

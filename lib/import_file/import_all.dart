@@ -34,6 +34,10 @@ export 'package:app_chat_firebase/blocs/app_bloc/blocs_import.dart';
 ///firebase
 export 'package:app_chat_firebase/firebase_options/firebase_options.dart';
 
+/// text size
+export 'package:auto_size_text/auto_size_text.dart';
+
+
 
 
 

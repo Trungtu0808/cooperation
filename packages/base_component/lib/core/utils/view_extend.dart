@@ -142,3 +142,12 @@ extension VxTextBuilderExtend on VxTextBuilder {
     return this;
   }
 }
+
+extension WidgetExtend on Widget {
+
+  Padding pRight8({Key? key}) => Padding(
+    key: key,
+    padding: const EdgeInsets.only(right: Dimens.gap_dp8),
+    child: this,
+  );
+}

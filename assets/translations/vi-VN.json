@@ -1,7 +1,12 @@
 {
+    "signIn" : "Đăng nhập",
     "loginScreen" : {
-        "login" :" Login",
-        "email" : "email",
-        "password" : "Password"
+        "login" :" Đăng nhập",
+        "email" : "Email",
+        "password" : "Mật khẩu",
+        "passwordInputHint" : "Nhập mật khẩu",
+        "emailInputHint" : "Nhập địa chỉ email",
+        "fullName" :" Họ và tên",
+        "fullNameInputHint" : "Nhập họ và tên"
     }
 }

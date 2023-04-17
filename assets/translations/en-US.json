@@ -1,7 +1,12 @@
 {
+    "signIn" : "Sign In",
     "loginScreen" : {
         "login" :" Login",
-        "email" : "email",
-        "password" : "Password"
+        "email" : "Email",
+        "password" : "Password",
+        "passwordInputHint" : "Input Password",
+        "emailInputHint" : "Input email",
+        "fullName" :"Full Name",
+        "fullNameInputHint" : "Input Full Name"
     }
 }
