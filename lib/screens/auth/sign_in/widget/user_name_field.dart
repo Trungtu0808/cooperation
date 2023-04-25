@@ -6,7 +6,7 @@ class _UserNameField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ReactiveTextFormField(
-      formControlName: _emailField,
+      formControlName: _userNameField,
       required: false,
       label: 'loginScreen.fullName'.tr(),
       hintText: 'loginScreen.fullNameInputHint'.tr(),

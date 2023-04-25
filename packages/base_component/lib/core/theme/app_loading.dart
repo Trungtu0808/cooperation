@@ -1,4 +1,5 @@
 import 'package:base_component/import_all.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class AppLoading {
@@ -34,5 +35,33 @@ class AppLoading {
           color: color ?? context.theme.onPrimary(),
           center: center,
         ));
+  }
+
+  static Widget defaultLoading({
+    bool isLoading = true,
+    bool center = true,
+    double? strokeWidth,
+    Color? color,
+  }) {
+    var loading = isLoading
+        ? CupertinoActivityIndicator(
+      color: color,
+    )
+        : Gaps.empty;
+
+    return center ? loading.centered() : loading;
+  }
+
+  static Widget defaultLoadingCenter({
+    bool isLoading = true,
+    double? strokeWidth,
+    Color? color,
+  }) {
+    return defaultLoading(
+      strokeWidth: strokeWidth,
+      color: color,
+      isLoading: isLoading,
+      center: true,
+    );
   }
 }

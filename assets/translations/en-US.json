@@ -1,12 +1,21 @@
 {
     "signIn" : "Sign In",
+    "register" : "Register",
     "loginScreen" : {
-        "login" :" Login",
+        "login" :"Login",
         "email" : "Email",
         "password" : "Password",
         "passwordInputHint" : "Input Password",
         "emailInputHint" : "Input email",
         "fullName" :"Full Name",
-        "fullNameInputHint" : "Input Full Name"
-    }
+        "fullNameInputHint" : "Input Full Name",
+        "NotAccount" : "Already have an account?",
+        "loginNow" : "Login now",
+        "register" : "Register",
+        "passwordConfirm" : "Confirm password",
+        "passwordConfirmInputHint" : "Input confirm password"
+    },
+    "passwordErrorMessages" : "passwordErrorMessages",
+    "confirmPasswordErrorMessages" : "confirmPasswordErrorMessages",
+    "emailErrorMessages": "emailErrorMessages"
 }

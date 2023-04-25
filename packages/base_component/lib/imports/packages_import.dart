@@ -3,4 +3,24 @@ export 'package:get/get.dart'
   hide 
     Transition;
 export 'package:velocity_x/velocity_x.dart'
-    hide VxContextExtensions, VxStringExtension;
+    show
+    VelocityXRichTextExtension,
+    VelocityXTextSpanExtension,
+    VxNumExtension,
+    VxObjectExtensions,
+    VxOpacityExtension,
+    VxTransformExtension,
+    VxWidgetsExtension,
+    VxTextExtensions,
+    // StringExtension,
+    VxPaddingExtensions,
+    VxMarqueeExtension,
+    CenterExtension,
+    VxCenterBuilderExtension;
+
+export 'package:logger_and_error/logger_and_error.dart';
+export 'package:logger_and_error/logger/logger_custom.dart';
+export 'package:package_info_plus/package_info_plus.dart';
+export 'package:device_info_plus/device_info_plus.dart';
+
+

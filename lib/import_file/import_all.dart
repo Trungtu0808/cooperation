@@ -5,6 +5,7 @@ export 'package:firebase_core/firebase_core.dart';
 export 'package:bloc/bloc.dart';
 export 'package:base_component/import_all.dart' hide Trans;
 export 'package:easy_localization/easy_localization.dart';
+export 'package:hive/hive.dart';
 
 export 'package:auto_route/auto_route.dart';
 export 'dart:async';
@@ -33,9 +34,14 @@ export 'package:app_chat_firebase/blocs/app_bloc/blocs_import.dart';
 
 ///firebase
 export 'package:app_chat_firebase/firebase_options/firebase_options.dart';
+export 'package:cloud_firestore/cloud_firestore.dart';
+export 'package:firebase_auth/firebase_auth.dart';
 
 /// text size
 export 'package:auto_size_text/auto_size_text.dart';
+
+/// Services
+export 'package:app_chat_firebase/services/services_import.dart';
 
 
 

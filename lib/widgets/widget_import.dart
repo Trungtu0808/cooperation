@@ -11,5 +11,8 @@ export 'package:app_chat_firebase/widgets/reactive_form/reactive_control_builder
 export 'package:app_chat_firebase/widgets/btn/action_button.dart';
 export 'package:app_chat_firebase/widgets/btn/action_button_type.dart';
 
+export 'package:app_chat_firebase/widgets/app_bar/default_appbar.dart';
+
+
 
 

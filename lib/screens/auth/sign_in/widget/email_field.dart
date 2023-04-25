@@ -6,7 +6,15 @@ class _EmailField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ReactiveTextFormField(
-      formControlName: _userNameField,
+      formControlName: _emailField,
+      validationMessages: {
+        ValidationMessage.email : (error)=>_emailField.tr(),
+        ValidationMessage.required : (error) => _emailField.tr(),
+      },
+      showErrors: (control){
+        return control.invalid && control.touched && control.dirty;
+      },
+      isShowError: true,
       required: false,
       label: 'loginScreen.email'.tr(),
       hintText: 'loginScreen.emailInputHint'.tr(),

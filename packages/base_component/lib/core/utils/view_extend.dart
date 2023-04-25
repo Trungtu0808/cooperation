@@ -1,10 +1,11 @@
 // ignore: unnecessary_this
 import 'package:base_component/import_all.dart';
+import 'package:velocity_x/velocity_x.dart';
 import 'package:flutter/material.dart';
 
 extension ThemeExtend on ThemeData {
   Color defaultTextColor() {
-    return primaryTextTheme.bodyText2!.color!;
+    return primaryTextTheme.bodyMedium!.color!;
   }
 
   Color onPrimary() {
@@ -12,7 +13,7 @@ extension ThemeExtend on ThemeData {
   }
 
   Color onAccent() {
-    return primaryTextTheme.bodyText2!.color!;
+    return primaryTextTheme.bodyMedium!.color!;
   }
 
   Color lightGrey() {
@@ -56,7 +57,7 @@ extension VxTextBuilderExtend on VxTextBuilder {
 
   VxTextBuilder colorError(BuildContext context) {
     // ignore: invalid_use_of_protected_member
-    velocityColor = Theme.of(context).errorColor;
+    velocityColor = Theme.of(context).colorScheme.error;
     return this;
   }
 

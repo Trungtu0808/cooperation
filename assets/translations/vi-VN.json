@@ -1,5 +1,6 @@
 {
     "signIn" : "Đăng nhập",
+    "register" : "Đăng ký",
     "loginScreen" : {
         "login" :" Đăng nhập",
         "email" : "Email",
@@ -7,6 +8,14 @@
         "passwordInputHint" : "Nhập mật khẩu",
         "emailInputHint" : "Nhập địa chỉ email",
         "fullName" :" Họ và tên",
-        "fullNameInputHint" : "Nhập họ và tên"
-    }
+        "fullNameInputHint" : "Nhập họ và tên",
+        "NotAccount" : "Bạn chưa có tài khoản?",
+        "loginNow" : "Đăng nhập ngay",
+        "register" : "Đăng ký",
+        "passwordConfirm" : "Xác nhận mật khẩu",
+        "passwordConfirmInputHint" : "Nhập lại mật khẩu"
+    },
+    "passwordErrorMessages" : "passwordErrorMessages",
+    "confirmPasswordErrorMessages" : "confirmPasswordErrorMessages",
+    "emailErrorMessages": "emailErrorMessages"
 }

@@ -10,10 +10,19 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_multi_formatter: ^2.10.2
   get: ^4.6.5
+  intl: ^0.17.0
+  path: ^1.8.2
   reactive_forms: ^14.1.0
   tab_indicator_styler: ^2.0.0
   velocity_x: ^3.6.0
+
+  #package internal import
+  logger_and_error:
+    path: ./../logger_and_error
+  package_info_plus: ^3.1.0
+  device_info_plus: ^8.2.0
 
 dev_dependencies:
   flutter_test:

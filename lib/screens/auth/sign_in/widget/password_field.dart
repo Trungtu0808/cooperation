@@ -7,9 +7,15 @@ class _PasswordField extends StatelessWidget {
   Widget build(BuildContext context) {
     return ReactivePasswordTextFormField(
       formControlName: _passwordField,
+      showErrors: (control) {
+        return control.invalid && control.touched && control.dirty;
+      },
+      isShowError: true,
       label: 'loginScreen.password'.tr(),
       hintText: 'loginScreen.passwordInputHint'.tr(),
+      textInputAction: TextInputAction.next,
       contentPadding: ReactivePasswordTextFormField.contentPaddingMedium,
+      maxLines: 1,
     );
   }
 }

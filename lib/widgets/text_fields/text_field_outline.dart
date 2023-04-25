@@ -67,6 +67,7 @@ class TextFieldOutline extends StatefulWidget {
     this.onClearPressed,
     this.isShowError = false,
     this.errorText,
+    this.isBottomShowError = true,
   }) : super(key: key);
 
   final String? label;
@@ -136,6 +137,7 @@ class TextFieldOutline extends StatefulWidget {
   final TextAlign? textAlign;
   final bool isShowError;
   final String? errorText;
+  final bool isBottomShowError;
 
   @override
   State createState() => _TextFieldOutlineState();
@@ -300,12 +302,22 @@ class _TextFieldOutlineState extends State<TextFieldOutline> {
                   '${lengthCountLD.value}/${widget.maxLength}'.text.textXS.caption(context).make())
               .objectCenterRight(),
           Gaps.vGap4,
-          Align(
-              alignment: Alignment.centerLeft,
-              child: errorText),
+          if (!widget.isBottomShowError)
+            Align(
+                alignment: Alignment.centerLeft,
+                child: errorText),
           if (widget.isShowError)
             Gaps.vGap4,
           textFormField,
+          if (widget.isBottomShowError)
+            Column(
+              children: [
+                Gaps.vGap4,
+                Align(
+                    alignment: Alignment.centerLeft,
+                    child: errorText),
+              ],
+            ),
         ],
       );
     }
@@ -331,12 +343,22 @@ class _TextFieldOutlineState extends State<TextFieldOutline> {
             ],
           ),
           Gaps.vGap4,
+          if (!widget.isBottomShowError)
           Align(
               alignment: Alignment.centerLeft,
               child: errorText),
           if (widget.isShowError)
             Gaps.vGap4,
           textFormField,
+          if (widget.isBottomShowError)
+            Column(
+              children: [
+                Gaps.vGap4,
+                Align(
+                    alignment: Alignment.centerLeft,
+                    child: errorText),
+              ],
+            ),
         ],
       );
     }

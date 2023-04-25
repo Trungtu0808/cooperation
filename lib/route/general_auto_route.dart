@@ -4,3 +4,8 @@ const loginPage = AutoRoute(
   page: SignInPage,
   path: '/loginPage',
 );
+
+const homePage = AutoRoute(
+  page: HomePage,
+  path: '/loginPage',
+);

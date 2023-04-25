@@ -8,5 +8,10 @@ class SigningInState extends SignInState{}
 class SignInErrorState extends SignInState{
   SignInErrorState(this.msg);
   final String msg;
-
 }
+
+class SocialAccountNotExisting extends SignInState {}
+
+class SignInSuccessState extends SignInState {}
+
+

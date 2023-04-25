@@ -1,15 +1,17 @@
 part of '../sign_in_page.dart';
 
 class _SignInButton extends StatelessWidget {
-  const _SignInButton({Key? key}) : super(key: key);
+  const _SignInButton({Key? key, //required this.form,
+  }) : super(key: key);
 
+  //final FormGroup form;
   @override
   Widget build(BuildContext context) {
-    final form = ReactiveForm.of(context) as FormGroup;
-
+   final form = ReactiveForm.of(context);
+    //print(form?.valid);
     return ActionButton(
       text: 'loginScreen.login'.tr(),
-      onTap: form.valid == true ? () => _onSigIn(context: context, form: form) : null,
+      onTap: form?.valid == true ? () => _onSigIn(context: context, form: form as FormGroup) : null,
     );
   }
 

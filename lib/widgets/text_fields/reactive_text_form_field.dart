@@ -36,6 +36,7 @@ class ReactiveTextFormField<T> extends StatefulWidget {
     this.enableSameBorder = false, this.onChange, this.textStyle, this.maxLength, this.autoFocus,
     this.showClear,
     this.isShowError = false,
+    this.isBottomShowError = true,
   }) : super(key: key);
 
   final String? formControlName;
@@ -70,6 +71,7 @@ class ReactiveTextFormField<T> extends StatefulWidget {
   final bool? autoFocus;
   final bool? showClear;
   final bool isShowError;
+  final bool isBottomShowError;
 
   @override
   State<ReactiveTextFormField<T>> createState() => _ReactiveTextFormFieldState<T>();
@@ -91,11 +93,13 @@ class _ReactiveTextFormFieldState<T> extends State<ReactiveTextFormField<T>> {
       formControl: widget.formControl,
       valueAccessor: widget.valueAccessor,
       validationMessages: widget.validationMessages,
+      showErrors: widget.showErrors,
       builder: (state) {
         if (state.value != _textController.text && state.value != null) {
           _textController.text = state.value!;
         }
         return TextFieldOutline(
+          isBottomShowError: widget.isBottomShowError,
           isShowError: widget.isShowError,
           errorText:  widget.isShowError ? state.errorText ?? '' : null,
           enableSameBorder: widget.enableSameBorder,

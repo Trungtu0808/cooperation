@@ -65,7 +65,8 @@ class _MyAppState extends State<MyApp> {
                 title: AppConfig.appName,
                 debugShowCheckedModeBanner: false,
                 builder: (context, childBody) {
-                 return childBody ?? Gaps.divider;
+                 return DismissKeyboard(
+                     child: childBody ?? Gaps.divider);
                   // final mediaQueryData = MediaQuery.of(context);
                   // final textScaleFactor = mediaQueryData.textScaleFactor.clamp(1.0, 1.1);
                   // return MediaQuery(

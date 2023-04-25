@@ -20,6 +20,7 @@ class ReactivePasswordTextFormField<T> extends StatefulWidget {
     this.onSubmit,
     this.focusNode,
     this.isShowError = false,
+    this.maxLines,
   }) : super(key: key);
 
   final String? formControlName;
@@ -35,6 +36,7 @@ class ReactivePasswordTextFormField<T> extends StatefulWidget {
   final Function(String)? onSubmit;
   final FocusNode? focusNode;
   final bool isShowError;
+  final int? maxLines;
 
   @override
   State<ReactivePasswordTextFormField<T>> createState() => _ReactivePasswordTextFormFieldState<T>();
@@ -45,36 +47,38 @@ class _ReactivePasswordTextFormFieldState<T> extends State<ReactivePasswordTextF
 
   @override
   Widget build(BuildContext context) {
-    return ReactiveTextFormField(
-      isShowError: widget.isShowError,
-      focusNode: widget.focusNode,
-      formControlName: widget.formControlName,
-      formControl: widget.formControl,
-      valueAccessor: widget.valueAccessor,
-      validationMessages: widget.validationMessages,
-      showErrors: widget.showErrors,
-      contentPadding: widget.contentPadding,
-      label: widget.label,
-      required: widget.required,
-      hintText: widget.hintText,
-      maxLines: 1,
-      textInputAction: widget.textInputAction,
-      obscureText: !_passwordVisible,
-      onSubmit: widget.onSubmit,
-      suffix: IconButton(
-        onPressed: _togglePasswordVisible,
-        iconSize: 24,
-        icon: Icon(
-          _passwordVisible ? Icons.visibility : Icons.visibility_off,
-          color: context.themeColorText.subTitleThird,
-        ),
-      ),
+    return StatefulBuilder(
+      builder: (context, setState) {
+        return ReactiveTextFormField(
+          isShowError: widget.isShowError,
+          focusNode: widget.focusNode,
+          formControlName: widget.formControlName,
+          formControl: widget.formControl,
+          valueAccessor: widget.valueAccessor,
+          validationMessages: widget.validationMessages,
+          showErrors: widget.showErrors,
+          contentPadding: widget.contentPadding,
+          label: widget.label,
+          required: widget.required,
+          hintText: widget.hintText,
+          maxLines: widget.maxLines,
+          textInputAction: widget.textInputAction,
+          obscureText: !_passwordVisible,
+          onSubmit: widget.onSubmit,
+          suffix: IconButton(
+            onPressed: (){
+              setState(() {
+                _passwordVisible = !_passwordVisible;
+              });
+            },
+            iconSize: 24,
+            icon: Icon(
+              _passwordVisible ? Icons.visibility : Icons.visibility_off,
+              color: context.themeColorText.subTitleThird,
+            ),
+          ),
+        );
+      }
     );
-  }
-
-  void _togglePasswordVisible() {
-    setState(() {
-      _passwordVisible = !_passwordVisible;
-    });
   }
 }
