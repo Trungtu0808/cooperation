@@ -17,5 +17,6 @@
     },
     "passwordErrorMessages" : "passwordErrorMessages",
     "confirmPasswordErrorMessages" : "confirmPasswordErrorMessages",
-    "emailErrorMessages": "emailErrorMessages"
+    "emailErrorMessages": "emailErrorMessages",
+    "email-already-in-use" : "The email address is already in use by another account."
 }

@@ -22,5 +22,6 @@ export 'package:logger_and_error/logger_and_error.dart';
 export 'package:logger_and_error/logger/logger_custom.dart';
 export 'package:package_info_plus/package_info_plus.dart';
 export 'package:device_info_plus/device_info_plus.dart';
+export 'package:dotted_line/dotted_line.dart';
 
 

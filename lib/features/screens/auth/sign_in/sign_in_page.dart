@@ -1,6 +1,11 @@
+import 'package:app_chat_firebase/features/blocs/auth/auth_bloc.dart';
+import 'package:app_chat_firebase/features/screens/auth/social_auth/social_auth_cubit.dart';
+import 'package:app_chat_firebase/features/screens/auth/social_auth/social_auth_state.dart';
 import 'package:app_chat_firebase/import_file/import_all.dart';
-import 'package:app_chat_firebase/screens/auth/sign_in/bloc/sign_in_cubit.dart';
-import 'package:base_component/widgets/app/loadding/app_top_layout.dart';
+import 'package:app_chat_firebase/features/screens/auth/sign_in/bloc/sign_in_cubit.dart';
+import 'package:app_chat_firebase/widgets/social_sign_methods.dart';
+import 'package:app_model/enums.dart';
+import 'package:app_model/features/auth/resp/signed_in_data.dart';
 import 'package:flutter/material.dart';
 
 part 'widget/password_field.dart';
@@ -8,6 +13,7 @@ part 'widget/email_field.dart';
 part 'widget/user_name_field.dart';
 part 'widget/confirm_password_field.dart';
 part 'widget/sign_in_button.dart';
+part 'widget/social_sign_in.dart';
 
 const _emailField = 'emailErrorMessages';
 const _passwordField = 'passwordErrorMessages';
@@ -65,10 +71,14 @@ class _SignInPageState extends State<SignInPage> {
         BlocProvider(
           create: (_) => SignInCubit(),
         ),
+        BlocProvider(
+          create: (_) => SocialAuthCubit(),
+        ),
       ],
       child: MultiBlocListener(
         listeners: [
           BlocListener<SignInCubit, SignInState>(listener: _signInListener),
+          BlocListener<SocialAuthCubit, SocialAuthState>(listener: _socialAuthSignInListener),
         ],
         child: Scaffold(
           appBar: const DefaultAppBar(),
@@ -93,7 +103,7 @@ class _SignInPageState extends State<SignInPage> {
           child: ReactiveForm(
             formGroup: _formGroup,
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
+              //mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -103,8 +113,8 @@ class _SignInPageState extends State<SignInPage> {
                 ),
                 Obx(() => _isSignType.value
                     ? Gaps.empty
-                    : Column(
-                        children: const [
+                    : const Column(
+                        children: [
                           Gaps.vGap30,
                           _UserNameField(),
                         ],
@@ -116,15 +126,20 @@ class _SignInPageState extends State<SignInPage> {
                 Gaps.vGap30,
                 Obx(() => _isSignType.value
                     ? Gaps.empty
-                    : Column(
-                        children: const [
+                    : const Column(
+                        children: [
                           _ConfirmPasswordField(),
                           Gaps.vGap30,
                         ],
                       )),
-                const _SignInButton(),
+                Obx(() {
+                    return _SignInButton(signInType: _isSignType.value,);
+                  }
+                ),
                 Gaps.vGap30,
                 _signUpLabel(context),
+                Gaps.vGap30,
+                const _SocialSignIn()
               ],
             ),
           )),
@@ -157,7 +172,30 @@ class _SignInPageState extends State<SignInPage> {
   }
 
   void _signInListener(BuildContext context, SignInState state) {
-    // _isSignType.value = state is SigningInState;
+    _isLoading.value = state is SigningInState;
+    if (state is SignUpSuccessState){
+      _onSignUpSuccessful(context, state.signedInData);
+    } else if (state is SignInSuccessState){
+      _onSignInSuccessful(context, state.signedInData);
+    }
+    else if (state is SignInErrorState){
+      //DialogUtils.showAlertDialog(context);
+      context.showAlertDialog(context, title: state.msg);
+    }
+  }
+
+  void _onSignUpSuccessful(BuildContext context, SignedInData signedInData){
+    context.read<AuthBloc>().add(AuthSignUpSuccessEvent(signedInData: signedInData));
+  }
+
+  void _onSignInSuccessful(BuildContext context, SignedInData signedInData){
+    context.read<AuthBloc>().add(AuthSignInSuccessEvent(signedInData: signedInData));
+  }
+
+  void _socialAuthSignInListener(BuildContext context, SocialAuthState state){
+    if (state is SocialSignInCanceled){
+      debugPrint(state.toString());
+    }
   }
 
   void _additionalFields() {

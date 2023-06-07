@@ -17,5 +17,6 @@
     },
     "passwordErrorMessages" : "passwordErrorMessages",
     "confirmPasswordErrorMessages" : "confirmPasswordErrorMessages",
-    "emailErrorMessages": "emailErrorMessages"
+    "emailErrorMessages": "emailErrorMessages",
+    "email-already-in-use" : "Địa chỉ email đã được sử dụng."
 }

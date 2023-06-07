@@ -12,6 +12,18 @@ class SignInErrorState extends SignInState{
 
 class SocialAccountNotExisting extends SignInState {}
 
-class SignInSuccessState extends SignInState {}
+class SignInSuccessState extends SignInState {
+  SignInSuccessState(this.signedInData);
+
+  final SignedInData signedInData;
+
+}
+
+class SignUpSuccessState extends SignInState {
+  SignUpSuccessState(this.signedInData);
+
+  final SignedInData signedInData;
+
+}
 
 

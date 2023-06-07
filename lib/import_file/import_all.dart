@@ -6,11 +6,13 @@ export 'package:bloc/bloc.dart';
 export 'package:base_component/import_all.dart' hide Trans;
 export 'package:easy_localization/easy_localization.dart';
 export 'package:hive/hive.dart';
+export 'package:overlay_support/overlay_support.dart';
 
 export 'package:auto_route/auto_route.dart';
 export 'dart:async';
 export 'package:flutter_bloc/flutter_bloc.dart';
 export 'package:logger_and_error/logger/logger_custom.dart';
+export 'package:google_sign_in/google_sign_in.dart';
 
 /// gen
 export 'package:app_chat_firebase/gen/fonts.gen.dart';
@@ -42,6 +44,13 @@ export 'package:auto_size_text/auto_size_text.dart';
 
 /// Services
 export 'package:app_chat_firebase/services/services_import.dart';
+
+/// data
+export 'package:app_chat_firebase/data/data_import.dart';
+
+/// app
+export 'package:app_chat_firebase/app.dart';
+
 
 
 

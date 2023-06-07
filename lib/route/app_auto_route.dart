@@ -1,5 +1,5 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:app_chat_firebase/screens/screens_import.dart';
+import 'package:app_chat_firebase/features/screens/screens_import.dart';
 part 'general_auto_route.dart';
 
 @MaterialAutoRouter(

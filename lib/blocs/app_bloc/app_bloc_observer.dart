@@ -1,15 +1,20 @@
+import 'dart:ui';
+
 import 'package:app_chat_firebase/import_file/import_all.dart';
 
 class AppBlocObserver extends BlocObserver {
-  const AppBlocObserver(this.init);
+  const AppBlocObserver();
 
- final Function init;
-
-  void initial(){
-    runZonedGuarded(
-          () async => init(),
-          (error, stack) => _onError(error, stack),
-    );
+  void initial(Function init){
+    try{
+      init();
+      // runZonedGuarded(
+      //       () => init(),
+      //       (error, stack) => _onError(error, stack),
+      // );
+    }catch(e){
+      logger.e(e);
+    }
   }
   @override
   void onChange(BlocBase bloc, Change change) {
