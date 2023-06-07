@@ -78,4 +78,10 @@ class _MyAppState extends State<MyApp> {
 
   PageRouteInfo? _initialRoutes() => _signedInData?.uid != null ? const HomeRoute() :
         SignInRoute() as PageRouteInfo;
+
+  @override
+  void dispose() {
+    super.dispose();
+    Hive.close();
+  }
 }

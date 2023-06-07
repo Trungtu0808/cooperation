@@ -16,13 +16,20 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         super(AuthInitialState()) {
     on<AuthSignInSuccessEvent>((event, emit) async {
       await _userSecureStorage.setSignedInData(event.signedInData);
+      emit(AuthenticatedState(authenticatedType: AuthenticatedType.signIn, signedInData: event.signedInData,
+      startRoute: _startRoute));
+      _startRoute = null;
     });
     on<AuthSignUpSuccessEvent>((event, emit) async {
       await _userSecureStorage.setSignedInData(event.signedInData);
-      emit(AuthenticatedState(AuthenticatedType.signUp, event.signedInData, _startRoute,));
+      emit(AuthenticatedState(
+        authenticatedType: AuthenticatedType.signUp,
+        signedInData: event.signedInData,
+        startRoute: _startRoute,
+      ));
       _startRoute = null;
-
     });
+    on<AuthFirstLoadUserEvent>(_onFirstLoadAuthEvent);
     on<AuthSignOutEvent>((event, emit) => _onSignOut(event, emit));
   }
 
@@ -34,13 +41,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final OnAuthError? onAuthError;
   RouteData? _startRoute;
 
-  void _onSignOut(event, emit)async{
-    try{
+  void _onSignOut(event, emit) async {
+    try {
       await _signOut();
       emit(UnauthenticatedState());
-    }catch(e){
-      // ignore: deprecated_member_use
-      if (e is DioError){
+    } catch (e) {
+      if (e is DioException) {
         emit(UnauthenticatedState());
         return;
       }
@@ -48,7 +54,28 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }
   }
 
-  Future _signOut()async{
+  FutureOr<void> _onFirstLoadAuthEvent(
+    AuthFirstLoadUserEvent event,
+    Emitter<AuthState> emit,
+  ) async {
+    try {
+      final signInData = _userSecureStorage.signedInData;
+      if (signInData == null) {
+        emit(UnauthenticatedState());
+      } else {
+        emit(AuthenticatedState(
+          authenticatedType: AuthenticatedType.normal,
+          signedInData: signInData,
+        ));
+      }
+      //await Get.find<UserR>()
+    } catch (e) {
+      logger.e(e);
+      emit(UnauthenticatedState(errorMsg: e.getServerErrorMsg()));
+    }
+  }
+
+  Future _signOut() async {
     await _firebase.logOut();
   }
 }

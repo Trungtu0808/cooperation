@@ -466,11 +466,15 @@ class FireBaseAuthRepo {
   /// Throws a [LogOutFailure] if an exception occurs.
   Future<void> logOut() async {
     try {
+      debugPrint('${_firebaseAuth.currentUser}');
       await Future.wait([
-        //_firebaseAuth.signOut(),
-        //_googleSignIn.signOut(),
+        _firebaseAuth.signOut(),
+        _googleSignIn.signOut(),
       ]);
-    } catch (_) {
+      await _firebaseAuth.currentUser?.delete();
+
+    } catch (e) {
+      debugPrint('$e');
       throw LogOutFailure();
     }
   }

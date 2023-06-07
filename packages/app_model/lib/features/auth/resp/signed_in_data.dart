@@ -20,6 +20,7 @@ class SignedInData {
   });
 
   factory SignedInData.fromJson(Map<String, dynamic> json) => _$SignedInDataFromJson(json);
+  Map<String, dynamic> toJson() => _$SignedInDataToJson(this);
 
   SignedInData copyWith({
     String? email,
@@ -34,4 +35,27 @@ class SignedInData {
         uid : uid ?? this.uid,
     );
   }
+}
+
+@JsonSerializable(ignoreUnannotated: false)
+class FCMTokenReq {
+  @JsonKey(name: 'deviceID')
+  final String? deviceID;
+  @JsonKey(name: 'deviceToken')
+  final String? deviceToken;
+  @JsonKey(name: 'type')
+  final String type;
+  final String? deviceIosID;
+
+  const FCMTokenReq({
+    this.deviceID,
+    this.deviceToken,
+    required this.type,
+    required this.deviceIosID,
+  });
+
+  factory FCMTokenReq.fromJson(Map<String, dynamic> json) =>
+      _$FCMTokenReqFromJson(json);
+
+  Map<String, dynamic> toJson() => _$FCMTokenReqToJson(this);
 }

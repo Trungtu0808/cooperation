@@ -1,18 +1,24 @@
 export 'package:app_chat_firebase/shared/constant_firebase.dart';
+export 'package:flutter_local_notifications/flutter_local_notifications.dart';
+export 'package:firebase_messaging/firebase_messaging.dart';
 
 /// packages
 export 'package:firebase_core/firebase_core.dart';
 export 'package:bloc/bloc.dart';
 export 'package:base_component/import_all.dart' hide Trans;
 export 'package:easy_localization/easy_localization.dart';
-export 'package:hive/hive.dart';
 export 'package:overlay_support/overlay_support.dart';
+
+/// Hive
+export 'package:hive_flutter/hive_flutter.dart';
+export 'package:hive/hive.dart';
 
 export 'package:auto_route/auto_route.dart';
 export 'dart:async';
 export 'package:flutter_bloc/flutter_bloc.dart';
 export 'package:logger_and_error/logger/logger_custom.dart';
 export 'package:google_sign_in/google_sign_in.dart';
+export 'package:path_provider/path_provider.dart';
 
 /// gen
 export 'package:app_chat_firebase/gen/fonts.gen.dart';

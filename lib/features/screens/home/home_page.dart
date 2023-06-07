@@ -1,3 +1,4 @@
+import 'package:app_chat_firebase/import_file/import_all.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -12,6 +13,16 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.green,
+      body: Container(
+        child: GestureDetector(
+          child: Center(child: 'logout'.text.make()),
+          onTap: (){
+            Get.find<FireBaseAuthRepo>().logOut();
+            Get.find<UserSecureStorage>().clear();
+            debugPrint('logout');
+          },
+        ),
+      ),
     );
   }
 }

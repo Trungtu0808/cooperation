@@ -4,15 +4,15 @@ abstract class AuthState {}
 
 class AuthInitialState extends AuthState {}
 
-class AuthSignInSuccessState extends AuthState {}
+//class AuthSignInSuccessState extends AuthState {}
 
 class AuthenticatedState extends AuthState {
-  AuthenticatedState(
-    this.authenticatedType,
+  AuthenticatedState({
+    required this.authenticatedType,
     //this.shouldUpdateProfile,
-    this.signedInData,
+    required this.signedInData,
     this.startRoute,
-  );
+  });
 
   final AuthenticatedType authenticatedType;
   //final bool shouldUpdateProfile;
@@ -20,7 +20,11 @@ class AuthenticatedState extends AuthState {
   final RouteData? startRoute;
 }
 
-class UnauthenticatedState extends AuthState{}
+class UnauthenticatedState extends AuthState{
+  UnauthenticatedState({this.errorMsg});
+
+  final String? errorMsg;
+}
 
 enum AuthenticatedType {
   signIn,

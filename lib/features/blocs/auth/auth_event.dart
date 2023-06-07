@@ -8,7 +8,7 @@ class AuthInitialEvent extends AuthEvent{}
 class AuthSignOutEvent extends AuthEvent {}
 
 class AuthFirstLoadUserEvent extends AuthEvent{
-  // AuthFirstLoadUserEvent();
+   AuthFirstLoadUserEvent();
 }
 
 class AuthSignInSuccessEvent extends AuthEvent{

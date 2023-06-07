@@ -3,6 +3,7 @@ import 'package:app_chat_firebase/features/screens/auth/social_auth/social_auth_
 import 'package:app_chat_firebase/features/screens/auth/social_auth/social_auth_state.dart';
 import 'package:app_chat_firebase/import_file/import_all.dart';
 import 'package:app_chat_firebase/features/screens/auth/sign_in/bloc/sign_in_cubit.dart';
+import 'package:app_chat_firebase/widgets/popups.dart';
 import 'package:app_chat_firebase/widgets/social_sign_methods.dart';
 import 'package:app_model/enums.dart';
 import 'package:app_model/features/auth/resp/signed_in_data.dart';
@@ -79,6 +80,7 @@ class _SignInPageState extends State<SignInPage> {
         listeners: [
           BlocListener<SignInCubit, SignInState>(listener: _signInListener),
           BlocListener<SocialAuthCubit, SocialAuthState>(listener: _socialAuthSignInListener),
+          BlocListener<AuthBloc, AuthState>(listener: _authListener),
         ],
         child: Scaffold(
           appBar: const DefaultAppBar(),
@@ -184,6 +186,27 @@ class _SignInPageState extends State<SignInPage> {
     }
   }
 
+  void _socialAuthSignInListener(BuildContext context, SocialAuthState state){
+    _isLoading.value = state is SocialSigningInState;
+    if (state is SocialSignInCanceled){
+      debugPrint(state.toString());
+    } else if (state is SocialSignInSuccessful){
+      _onSocialSignInSuccessful(context, state.data);
+    } else if (state is SocialAuthError){
+      context.showErrorPopup(msg: state.msg);
+    }
+  }
+
+  void _authListener(BuildContext context, AuthState state){
+    debugPrint(state.toString());
+    if (state is AuthenticatedState){
+      if ([AuthenticatedType.signIn, AuthenticatedType.signIn,].contains(state.authenticatedType)){
+        context.router.pushAndPopUntil(const HomeRoute(), predicate: (route) => false);
+      }
+    }
+  }
+
+
   void _onSignUpSuccessful(BuildContext context, SignedInData signedInData){
     context.read<AuthBloc>().add(AuthSignUpSuccessEvent(signedInData: signedInData));
   }
@@ -192,10 +215,9 @@ class _SignInPageState extends State<SignInPage> {
     context.read<AuthBloc>().add(AuthSignInSuccessEvent(signedInData: signedInData));
   }
 
-  void _socialAuthSignInListener(BuildContext context, SocialAuthState state){
-    if (state is SocialSignInCanceled){
-      debugPrint(state.toString());
-    }
+
+  void _onSocialSignInSuccessful(BuildContext context, SignedInData signedInData){
+    context.read<AuthBloc>().add(AuthSignInSuccessEvent(signedInData: signedInData));
   }
 
   void _additionalFields() {

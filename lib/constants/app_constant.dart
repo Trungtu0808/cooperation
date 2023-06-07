@@ -8,4 +8,6 @@ class AppConstant {
   static const databaseUserName = 'users';
   static const databaseGroupName = 'Groups';
 
+  static const keyBoxSetting = 'KEY_BOX_SETTING';
+
 }

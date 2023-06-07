@@ -4,9 +4,13 @@ class SocialAuthState {}
 
 class Initializing  extends SocialAuthState{}
 
-class SocialSigningIn extends SocialAuthState{}
+class SocialSigningInState extends SocialAuthState{}
 
-class SocialSignInCanceled extends SocialAuthState{}
+class SocialSignInCanceled extends SocialAuthState{
+  SocialSignInCanceled({this.msg});
+
+  final String? msg;
+}
 
 class SocialSignInSuccessful extends SocialAuthState{
   SocialSignInSuccessful(this.data);

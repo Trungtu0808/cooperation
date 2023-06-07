@@ -13,7 +13,7 @@ class SocialAuthCubit extends Cubit<SocialAuthState> {
   void init() {}
 
   void signInWithSocialAccount(AccountTypes accountTypes) async {
-    emit(SocialSigningIn());
+    emit(SocialSigningInState());
     final googleUser = _googleSignIn.currentUser;
     if (googleUser != null) {
       _googleSignIn.signOut();
@@ -49,11 +49,11 @@ class SocialAuthCubit extends Cubit<SocialAuthState> {
       //final token = await credential?.user?.getIdToken();
       final token = loginSocialResult?.userCredential?.user?.getIdToken();
       if (token == null) {
-        emit(SocialSignInCanceled());
+        emit(SocialSignInCanceled(msg: token.getServerErrorMsg()));
         return;
       }
       debugPrint("$loginSocialResult");
-      emit(SocialSignInSuccessful(SignedInData().copyWith(
+      emit(SocialSignInSuccessful(SignedInData(
         email: loginSocialResult?.email,
         fullName: loginSocialResult?.displayName,
         uid: loginSocialResult?.socialId,
@@ -65,9 +65,10 @@ class SocialAuthCubit extends Cubit<SocialAuthState> {
         ServiceErrorCode.INVALID_CREDENTIAL,
       ].contains(e.toString())) {
         emit(SocialAuthError(e.toString().tr()));
-      }
-      if (e is LogInWithSocialCancel) {
-        emit(SocialSignInCanceled());
+      } else if (e is LogInWithSocialFailure) {
+        emit(SocialSignInCanceled(msg: e.message.tr()));
+      } else if (e is LogInWithSocialCancel) {
+        emit(SocialSignInCanceled(msg: e.getServerErrorMsg()));
       }
     }
   }

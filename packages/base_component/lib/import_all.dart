@@ -13,3 +13,6 @@ export 'package:base_component/imports/themes_import.dart';
 
 // utils
 export 'package:base_component/imports/utils_imports.dart';
+
+// data
+export 'package:base_component/imports/data_imports.dart';
