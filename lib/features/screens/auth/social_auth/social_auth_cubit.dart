@@ -2,7 +2,7 @@ import 'package:app_chat_firebase/features/screens/auth/social_auth/social_auth_
 import 'package:app_chat_firebase/import_file/import_all.dart';
 import 'package:app_model/enums.dart';
 import 'package:app_model/features/auth/resp/signed_in_data.dart';
-import 'package:flutter/cupertino.dart';
+
 
 class SocialAuthCubit extends Cubit<SocialAuthState> {
   SocialAuthCubit() : super(Initializing());
@@ -23,7 +23,7 @@ class SocialAuthCubit extends Cubit<SocialAuthState> {
       _firebaseAuth.signOut();
     }
     //UserCredential? credential;
-    LoginSocialResult? loginSocialResult;
+    UserCredential? userCredential;
     String? fullName;
     try {
       switch (accountTypes) {
@@ -32,13 +32,16 @@ class SocialAuthCubit extends Cubit<SocialAuthState> {
           break;
         case AccountTypes.GOOGLE_ACC_TYPE:
           //credential = await _sigInWithGoogle();
-          loginSocialResult = await _firebaseAuthRepo.signInWithGoogle();
+          final loginSocialResult = await _firebaseAuthRepo.signInWithGoogle();
+          userCredential = loginSocialResult?.userCredential;
           break;
         case AccountTypes.FACEBOOK_ACC_TYPE:
           // TODO: Handle this case.
           break;
         case AccountTypes.APPLE_ACC_TYPE:
-          // TODO: Handle this case.
+          //final credential = await AppleAuth.signInWithApple();
+          final loginSocialResult = await _firebaseAuthRepo.signInWithApple();
+          userCredential = loginSocialResult?.userCredential;
           break;
         case AccountTypes.OTHER_ACC_TYPE:
           // TODO: Handle this case.
@@ -46,17 +49,15 @@ class SocialAuthCubit extends Cubit<SocialAuthState> {
         default:
           throw Exception("${accountTypes.runtimeType} is not support");
       }
-      //final token = await credential?.user?.getIdToken();
-      final token = loginSocialResult?.userCredential?.user?.getIdToken();
+      final token = userCredential?.user?.getIdToken();
       if (token == null) {
         emit(SocialSignInCanceled(msg: token.getServerErrorMsg()));
         return;
       }
-      debugPrint("$loginSocialResult");
       emit(SocialSignInSuccessful(SignedInData(
-        email: loginSocialResult?.email,
-        fullName: loginSocialResult?.displayName,
-        uid: loginSocialResult?.socialId,
+        email: userCredential?.user?.email,
+        fullName: userCredential?.user?.displayName,
+        uid: userCredential?.user?.uid,
       )));
     } catch (e) {
       logger.e(e);
@@ -65,10 +66,16 @@ class SocialAuthCubit extends Cubit<SocialAuthState> {
         ServiceErrorCode.INVALID_CREDENTIAL,
       ].contains(e.toString())) {
         emit(SocialAuthError(e.toString().tr()));
+
       } else if (e is LogInWithSocialFailure) {
         emit(SocialSignInCanceled(msg: e.message.tr()));
+
       } else if (e is LogInWithSocialCancel) {
         emit(SocialSignInCanceled(msg: e.getServerErrorMsg()));
+
+      }
+      else if (e is AuthorizationErrorCode){
+        emit(SocialSignInCanceled(msg: e.name.getServerErrorMsg()));
       }
     }
   }

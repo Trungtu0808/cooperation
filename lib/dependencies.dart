@@ -1,3 +1,4 @@
+import 'package:app_chat_firebase/data/device/device_repo.dart';
 import 'package:app_chat_firebase/import_file/import_all.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -35,6 +36,7 @@ Future<void> _appDataProvider()async{
   // data repo
   Get.lazyPut<FireBaseAuthRepo>(() => FireBaseAuthRepo(), fenix: true);
   Get.lazyPut<AuthRepo>(() => AuthRepo(), fenix: true);
+  Get.lazyPut<DeviceRepo>(() => DeviceRepo(), fenix: true);
 
   //service
   Get.lazyPut<AuthServices>(() => AuthServices(), fenix: true);

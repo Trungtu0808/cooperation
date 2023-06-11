@@ -7,7 +7,7 @@ class _SocialSignIn extends StatelessWidget {
   Widget build(BuildContext context) {
     return SocialSignMethod(
       onAppleSignIn: (){
-
+        context.read<SocialAuthCubit>().signInWithSocialAccount(AccountTypes.APPLE_ACC_TYPE);
       },
       onFacebookSignIn: (){
 

@@ -8,6 +8,8 @@ export 'package:bloc/bloc.dart';
 export 'package:base_component/import_all.dart' hide Trans;
 export 'package:easy_localization/easy_localization.dart';
 export 'package:overlay_support/overlay_support.dart';
+export 'package:crypto/crypto.dart';
+export 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 /// Hive
 export 'package:hive_flutter/hive_flutter.dart';

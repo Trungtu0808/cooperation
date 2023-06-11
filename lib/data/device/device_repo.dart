@@ -2,7 +2,7 @@ import 'package:app_chat_firebase/import_file/import_all.dart';
 import 'package:app_model/features/auth/resp/signed_in_data.dart';
 
 class DeviceRepo {
-  DeviceRepo._();
+  DeviceRepo();
 
   Future<FCMTokenReq> getFCMTokenReq()async{
     try{

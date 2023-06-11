@@ -1,12 +1,18 @@
-//import 'package:dr_gold/data/auth/apple_auth.dart';
+import 'dart:io';
+
 import 'package:app_model/features/auth/user.dart';
 import 'package:base_component/import_all.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
-import 'package:firebase_auth/firebase_auth.dart' hide User;
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
+import 'package:firebase_auth/firebase_auth.dart' hide User;
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:logger_and_error/logger/logger_custom.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
+import 'apple_auth.dart';
 import 'auth_exception.dart';
+
 
 //import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
@@ -362,103 +368,103 @@ class FireBaseAuthRepo {
   }
 
   /// Sign in with apple
-  // Future<LoginSocialResult?> signInWithApple() async {
-  //   logger.i('--------------------');
-  //   logger.i('Sign-in Apple: begin');
-  //   logger.i(_firebaseAuth.currentUser);
-  //   // To prevent replay attacks with the credential returned from Apple, we
-  //   // include a nonce in the credential request. When signing in with
-  //   // Firebase, the nonce in the id token returned by Apple, is expected to
-  //   // match the sha256 hash of `rawNonce`.
-  //
-  //   if (Platform.isAndroid) {
-  //     logger.i('Sign-in Apple: Android');
-  //     try {
-  //       const platform = MethodChannel('APPLE_DRGOLD_CHANNEL');
-  //       final token = await platform.invokeMethod('signInWithApple');
-  //
-  //       final appleProvider = _firebaseAuth.currentUser?.providerData
-  //           .firstWhereOrNull((element) => element.providerId == "apple.com");
-  //
-  //       return LoginSocialResult(
-  //         accessToken: token,
-  //         displayName: _firebaseAuth.currentUser?.displayName,
-  //         email: _firebaseAuth.currentUser?.email,
-  //         socialId: appleProvider?.uid ?? '',
-  //         photoUrl: _firebaseAuth.currentUser?.photoURL,
-  //       );
-  //     } on PlatformException catch (e) {
-  //       logger.i(e);
-  //     }
-  //     return Future.value();
-  //   }
-  //
-  //   logger.i('Sign-in Apple: IOS');
-  //   try {
-  //     final rawNonce = AppleAuth.generateNonce();
-  //     final nonce = AppleAuth.sha256ofString(rawNonce);
-  //
-  //     // Request credential for the currently signed in Apple account.
-  //     final appleCredential = await SignInWithApple.getAppleIDCredential(
-  //       scopes: [
-  //         AppleIDAuthorizationScopes.email,
-  //         AppleIDAuthorizationScopes.fullName,
-  //       ],
-  //       nonce: nonce,
-  //     );
-  //     if (appleCredential.identityToken != null) {
-  //       logger.i('APPLE-appleCredential: ${appleCredential}');
-  //       logger.i('APPLE-appleCredential token: ${appleCredential.identityToken}');
-  //       // Create an `OAuthCredential` from the credential returned by Apple.
-  //       final oauthCredential = OAuthProvider("apple.com").credential(
-  //         idToken: appleCredential.identityToken,
-  //         rawNonce: rawNonce,
-  //       );
-  //       // logger.i(oauthCredential);
-  //       // logger.i('--------------------');
-  //       // logger.i('APPLE-oauthCredential: ${oauthCredential.accessToken}');
-  //       //
-  //       var firebaseCredential = await FirebaseAuth.instance.signInWithCredential(oauthCredential);
-  //
-  //       return LoginSocialResult(
-  //         accessToken: appleCredential.authorizationCode,
-  //         displayName: firebaseCredential.user?.displayName,
-  //         email: firebaseCredential.user?.email,
-  //         socialId: appleCredential.userIdentifier,
-  //         // photoUrl: appleCredential.,
-  //       );
-  //
-  //       // Sign in the user with Firebase. If the nonce we generated earlier does
-  //       // not match the nonce in `appleCredential.identityToken`, sign in will fail.
-  //       // return await FirebaseAuth.instance
-  //       //     .signInWithCredential(oauthCredential)
-  //       //     .then((value) async {
-  //       //   if (value.user != null) {
-  //       //     // await _addToken(value.user!);
-  //       //     _verificationId = null;
-  //       //   }
-  //       //   // var id = value?.user?.providerData.getOrNull(0)?.uid ?? '';
-  //       //   // logger.i('--------------------');
-  //       //   // logger.i(id);
-  //       //
-  //       //   return LoginSocialResult(
-  //       //       userCredential: value, accessToken: oauthCredential.accessToken);
-  //       // });
-  //     }
-  //   } on FirebaseAuthException catch (error) {
-  //     logger.e(error);
-  //     return Future.error(LogInWithSocialFailure.fromCode(error.code));
-  //   } on SignInWithAppleAuthorizationException catch (error) {
-  //     if (AuthorizationErrorCode.canceled == error.code) {
-  //       return Future.error(LogInWithSocialCancel());
-  //     }
-  //     return Future.error(error);
-  //   } catch (error) {
-  //     logger.e(error);
-  //     return Future.error(error);
-  //   }
-  //   return Future.error(LogInWithSocialCancel());
-  // }
+  Future<LoginSocialResult?> signInWithApple() async {
+    logger.i('--------------------');
+    logger.i('Sign-in Apple: begin');
+    //logger.i(_firebaseAuth.currentUser);
+    // To prevent replay attacks with the credential returned from Apple, we
+    // include a nonce in the credential request. When signing in with
+    // Firebase, the nonce in the id token returned by Apple, is expected to
+    // match the sha256 hash of `rawNonce`.
+
+    if (Platform.isAndroid) {
+      logger.i('Sign-in Apple: Android');
+      try {
+        const platform = MethodChannel('APPLE_COOPERATION_CHANNEL');
+        final token = await platform.invokeMethod('signInWithApple');
+
+        final appleProvider = _firebaseAuth.currentUser?.providerData
+            .firstWhereOrNull((element) => element.providerId == "apple.com");
+
+        return Future.value(LoginSocialResult(
+          accessToken: token,
+          displayName: _firebaseAuth.currentUser?.displayName,
+          email: _firebaseAuth.currentUser?.email,
+          socialId: appleProvider?.uid ?? '',
+          photoUrl: _firebaseAuth.currentUser?.photoURL,
+        ));
+      } on PlatformException catch (e) {
+        logger.i(e);
+        return Future.value();
+      }
+    }
+
+    logger.i('Sign-in Apple: IOS');
+    try {
+      final rawNonce = AppleAuth.generateNonce();
+      final nonce = AppleAuth.sha256ofString(rawNonce);
+
+      // Request credential for the currently signed in Apple account.
+      final appleCredential = await SignInWithApple.getAppleIDCredential(
+        scopes: [
+          AppleIDAuthorizationScopes.email,
+          AppleIDAuthorizationScopes.fullName,
+        ],
+        nonce: nonce,
+      );
+      if (appleCredential.identityToken != null) {
+        logger.i('APPLE-appleCredential: $appleCredential');
+        logger.i('APPLE-appleCredential token: ${appleCredential.identityToken}');
+        // Create an `OAuthCredential` from the credential returned by Apple.
+        final oauthCredential = OAuthProvider("apple.com").credential(
+          idToken: appleCredential.identityToken,
+          rawNonce: rawNonce,
+        );
+        // logger.i(oauthCredential);
+        // logger.i('--------------------');
+        // logger.i('APPLE-oauthCredential: ${oauthCredential.accessToken}');
+        //
+        var firebaseCredential = await FirebaseAuth.instance.signInWithCredential(oauthCredential);
+
+        return Future.value(LoginSocialResult(
+          accessToken: appleCredential.authorizationCode,
+          displayName: firebaseCredential.user?.displayName,
+          email: firebaseCredential.user?.email,
+          socialId: appleCredential.userIdentifier,
+          // photoUrl: appleCredential.,
+        ));
+
+        // Sign in the user with Firebase. If the nonce we generated earlier does
+        // not match the nonce in `appleCredential.identityToken`, sign in will fail.
+        // return await FirebaseAuth.instance
+        //     .signInWithCredential(oauthCredential)
+        //     .then((value) async {
+        //   if (value.user != null) {
+        //     // await _addToken(value.user!);
+        //     _verificationId = null;
+        //   }
+        //   // var id = value?.user?.providerData.getOrNull(0)?.uid ?? '';
+        //   // logger.i('--------------------');
+        //   // logger.i(id);
+        //
+        //   return LoginSocialResult(
+        //       userCredential: value, accessToken: oauthCredential.accessToken);
+        // });
+      }
+    } on FirebaseAuthException catch (error) {
+      logger.e(error);
+      return Future.error(LogInWithSocialFailure.fromCode(error.code));
+    } on SignInWithAppleAuthorizationException catch (error) {
+      if (AuthorizationErrorCode.canceled == error.code) {
+        return Future.error(LogInWithSocialCancel());
+      }
+      return Future.error(error.code);
+    } catch (error) {
+      logger.e(error);
+      return Future.error(error);
+    }
+    return Future.error(LogInWithSocialCancel());
+  }
 
   /// Signs out the current user which will emit
   /// [UserModel.empty] from the [user] Stream.

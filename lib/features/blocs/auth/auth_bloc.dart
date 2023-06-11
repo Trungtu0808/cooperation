@@ -1,3 +1,4 @@
+import 'package:app_chat_firebase/data/device/device_repo.dart';
 import 'package:app_chat_firebase/import_file/import_all.dart';
 import 'package:app_model/app_model_all_file.dart';
 import 'package:app_model/features/auth/resp/signed_in_data.dart';
@@ -37,6 +38,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   //final _authRepo = Get.find<AuthRepo>();
   final _firebase = Get.find<FireBaseAuthRepo>();
+  final _deviceRepo = Get.find<DeviceRepo>();
 
   final OnAuthError? onAuthError;
   RouteData? _startRoute;
@@ -77,5 +79,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   Future _signOut() async {
     await _firebase.logOut();
+    await _removeLocalReference();
+
+  }
+  Future _removeLocalReference() async{
+    await _userSecureStorage.clear();
+    _deviceRepo.removeToken();
   }
 }

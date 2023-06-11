@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:base_component/import_all.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -45,7 +47,8 @@ class AppLoadingIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CupertinoActivityIndicator(radius: 16.0, color: color);
+    return Platform.isIOS ? CupertinoActivityIndicator(radius: 16.0, color: color) :
+    CircularProgressIndicator(backgroundColor: color,);
   }
 }
 
