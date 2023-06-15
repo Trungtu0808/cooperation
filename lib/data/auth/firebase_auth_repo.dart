@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_auth/firebase_auth.dart' hide User;
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:logger_and_error/logger/logger_custom.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
@@ -114,11 +115,15 @@ class FireBaseAuthRepo {
   FireBaseAuthRepo({
     firebase_auth.FirebaseAuth? firebaseAuth,
     GoogleSignIn? googleSignIn,
+    FacebookAuth? facebookAuth,
   }) : _firebaseAuth = firebaseAuth ?? firebase_auth.FirebaseAuth.instance,
-  _googleSignIn = googleSignIn ?? GoogleSignIn.standard();
+  _googleSignIn = googleSignIn ?? GoogleSignIn.standard(),
+  _facebookAuth = facebookAuth ?? FacebookAuth.instance;
 
   final firebase_auth.FirebaseAuth _firebaseAuth;
   final GoogleSignIn _googleSignIn;
+  final FacebookAuth _facebookAuth;
+
 
   // For phone login
   String? _verificationId;
@@ -301,70 +306,72 @@ class FireBaseAuthRepo {
 
   Future<LoginSocialResult?> signInWithFacebook() async {
     // TODO: Handle signin with facebook
-    throw UnimplementedError();
-    // dynamic fbLoginRs = await FacebookAuth.instance.login();
-    // try {
-    //   if (fbLoginRs != null && fbLoginRs.status == LoginStatus.success) {
-    //     logger.i('signInWithFacebook => $fbLoginRs');
-    //     if (fbLoginRs is AccessToken) {
-    //       logger.i('signInWithFacebook => AccessToken');
+    //throw UnimplementedError();
+    dynamic fbLoginRs = await _facebookAuth.login();
+    try {
+      if (fbLoginRs != null && fbLoginRs.status == LoginStatus.success) {
+        logger.i('signInWithFacebook => $fbLoginRs');
+        if (fbLoginRs is AccessToken) {
+          logger.i('signInWithFacebook => AccessToken');
 
-    //       // Login success
-    //       final OAuthCredential fbAuthCredential =
-    //       FacebookAuthProvider.credential(fbLoginRs.token);
+          // Login success
+          final OAuthCredential fbAuthCredential =
+          FacebookAuthProvider.credential(fbLoginRs.token);
 
-    //       return await _firebaseAuth
-    //           .signInWithCredential(fbAuthCredential)
-    //           .then((value) async {
-    //         if (value.user != null) {
-    //           _verificationId = null;
-    //         }
-    //         logger.i(fbAuthCredential);
-    //         logger.i(fbLoginRs);
-    //         return LoginSocialResult(
-    //           accessToken: fbAuthCredential.accessToken,
-    //           socialId: fbLoginRs.userId,
-    //           displayName: value.user?.displayName,
-    //           email: value.user?.email,
-    //           photoUrl: value.user?.photoURL,
-    //         );
-    //       });
-    //     } else if (fbLoginRs is LoginResult) {
-    //       logger.i('signInWithFacebook => LoginResult');
-    //       if (fbLoginRs.accessToken?.token.isNullOrEmpty() == true) {
-    //         logger
-    //             .e('signInWithFacebook err => ${fbLoginRs.message.toString()}');
-    //         return Future.error(fbLoginRs.message.toString());
-    //       }
+          return await _firebaseAuth
+              .signInWithCredential(fbAuthCredential)
+              .then((value) async {
+            if (value.user != null) {
+              _verificationId = null;
+            }
+            logger.i(fbAuthCredential);
+            logger.i(fbLoginRs);
+            return Future.value(LoginSocialResult(
+              accessToken: fbAuthCredential.accessToken,
+              socialId: fbLoginRs.userId,
+              displayName: value.user?.displayName,
+              email: value.user?.email,
+              photoUrl: value.user?.photoURL,
+            ));
+          });
+        } else if (fbLoginRs is LoginResult) {
+          logger.i('signInWithFacebook => LoginResult ${fbLoginRs.accessToken?.token.isNullOrEmpty()}');
+          if (fbLoginRs.accessToken?.token.isNullOrEmpty() == true) {
+            logger
+                .e('signInWithFacebook err => ${fbLoginRs.message.toString()}');
+            return Future.error(fbLoginRs.message.toString());
+          }
 
-    //       final OAuthCredential fbAuthCredential =
-    //       FacebookAuthProvider.credential(fbLoginRs.accessToken!.token);
-    //       return await _firebaseAuth
-    //           .signInWithCredential(fbAuthCredential)
-    //           .then((value) async {
-    //         if (value.user != null) {
-    //           _verificationId = null;
-    //         }
+          final OAuthCredential fbAuthCredential =
+          FacebookAuthProvider.credential(fbLoginRs.accessToken!.token);
+          return await _firebaseAuth
+              .signInWithCredential(fbAuthCredential)
+              .then((value) async {
+            if (value.user != null) {
+              _verificationId = null;
+            }
+            debugPrint("$value");
 
-    //         return LoginSocialResult(
-    //           accessToken: fbAuthCredential.accessToken,
-    //           socialId: value.additionalUserInfo?.profile?['id'],
-    //           displayName: value.user?.displayName,
-    //           email: value.user?.email,
-    //           photoUrl: value.user?.photoURL,
-    //         );
-    //       });
-    //     }
-    //   }
-    // } on FirebaseAuthException catch (error) {
-    //   logger.e(error);
-    //   return Future.error(LogInWithSocialFailure.fromCode(error.code));
-    // } catch (error) {
-    //   logger.e(error);
-    //   return Future.error(error);
-    // }
+            return Future.value(LoginSocialResult(
+              accessToken: fbAuthCredential.accessToken,
+              socialId: value.additionalUserInfo?.profile?['id'],
+              displayName: value.user?.displayName,
+              email: value.user?.email,
+              photoUrl: value.user?.photoURL,
+              userCredential: value
+            ));
+          });
+        }
+      }
+    } on FirebaseAuthException catch (error) {
+      logger.e(error);
+      return Future.error(LogInWithSocialFailure.fromCode(error.code));
+    } catch (error) {
+      logger.e(error);
+      return Future.error(error);
+    }
 
-    // return Future.error(LogInWithSocialCancel());
+    return Future.error(LogInWithSocialCancel());
   }
 
   /// Sign in with apple
@@ -476,6 +483,7 @@ class FireBaseAuthRepo {
       await Future.wait([
         _firebaseAuth.signOut(),
         _googleSignIn.signOut(),
+        _facebookAuth.logOut()
       ]);
       await _firebaseAuth.currentUser?.delete();
 

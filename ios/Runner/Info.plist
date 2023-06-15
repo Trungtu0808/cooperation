@@ -34,6 +34,7 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
+			    <string>fb2007991432870834</string>
 				<string>com.googleusercontent.apps.978961219181-jlovo3f6adejuh19kpdoma8b4cd2qgda</string>
 			</array>
 		</dict>
@@ -67,5 +68,16 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+    <key>FacebookAppID</key>
+    <string>2007991432870834</string>
+    <key>FacebookClientToken</key>
+    <string>6ed681abb6933a10743ba34fc46ae056</string>
+    <key>FacebookDisplayName</key>
+    <string>cooperation</string>
+    <key>LSApplicationQueriesSchemes</key>
+    <array>
+      <string>fbapi</string>
+      <string>fb-messenger-share-api</string>
+    </array>
 </dict>
 </plist>

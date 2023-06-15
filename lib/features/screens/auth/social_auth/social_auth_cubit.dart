@@ -2,6 +2,7 @@ import 'package:app_chat_firebase/features/screens/auth/social_auth/social_auth_
 import 'package:app_chat_firebase/import_file/import_all.dart';
 import 'package:app_model/enums.dart';
 import 'package:app_model/features/auth/resp/signed_in_data.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
 
 class SocialAuthCubit extends Cubit<SocialAuthState> {
@@ -36,7 +37,8 @@ class SocialAuthCubit extends Cubit<SocialAuthState> {
           userCredential = loginSocialResult?.userCredential;
           break;
         case AccountTypes.FACEBOOK_ACC_TYPE:
-          // TODO: Handle this case.
+          final loginSocialResult = await _firebaseAuthRepo.signInWithFacebook();
+          userCredential = loginSocialResult?.userCredential;
           break;
         case AccountTypes.APPLE_ACC_TYPE:
           //final credential = await AppleAuth.signInWithApple();
@@ -92,5 +94,15 @@ class SocialAuthCubit extends Cubit<SocialAuthState> {
     );
 
     return await _firebaseAuth.signInWithCredential(credential);
+  }
+
+  Future<UserCredential?> _signWithFacebook() async {
+    final result = await FacebookAuth.instance.login(permissions: ['public_profile']);
+    if (result.status == LoginStatus.success) {
+      final accessToken = result.accessToken!;
+      final credential = FacebookAuthProvider.credential(accessToken.token);
+      return _firebaseAuth.signInWithCredential(credential);
+    }
+    return null;
   }
 }

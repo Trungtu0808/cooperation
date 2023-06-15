@@ -190,6 +190,7 @@ class _SignInPageState extends State<SignInPage> {
     _isLoading.value = state is SocialSigningInState;
     if (state is SocialSignInCanceled){
       debugPrint(state.toString());
+      context.showErrorPopup(msg: state.msg ?? '');
     } else if (state is SocialSignInSuccessful){
       _onSocialSignInSuccessful(context, state.data);
     } else if (state is SocialAuthError){

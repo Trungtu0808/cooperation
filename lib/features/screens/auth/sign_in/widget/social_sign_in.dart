@@ -10,6 +10,7 @@ class _SocialSignIn extends StatelessWidget {
         context.read<SocialAuthCubit>().signInWithSocialAccount(AccountTypes.APPLE_ACC_TYPE);
       },
       onFacebookSignIn: (){
+        context.read<SocialAuthCubit>().signInWithSocialAccount(AccountTypes.FACEBOOK_ACC_TYPE);
 
       },
       onGoogleSignIn: (){
