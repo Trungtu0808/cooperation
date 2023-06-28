@@ -1,4 +1,5 @@
 import 'package:app_chat_firebase/import_file/import_all.dart';
+import 'package:app_chat_firebase/notifications/notifications_receiver.dart';
 import 'package:app_chat_firebase/widgets/popups.dart';
 import 'package:flutter/material.dart';
 import 'package:app_chat_firebase/features/blocs/auth/auth_bloc.dart';
@@ -46,7 +47,9 @@ class _MyAppState extends State<MyApp> {
                             onAuthError: _onAuthError,
                           )..add(AuthFirstLoadUserEvent())),
                     ],
-                    child: DismissKeyboard(child: childBody ?? Gaps.divider),
+                    child: NotificationsReceiver(
+                      appAutoRoute: widget.appRoute,
+                        child: DismissKeyboard(child: childBody ?? Gaps.divider)),
                   );
                   // final mediaQueryData = MediaQuery.of(context);
                   // final textScaleFactor = mediaQueryData.textScaleFactor.clamp(1.0, 1.1);

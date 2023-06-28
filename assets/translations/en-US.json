@@ -18,5 +18,7 @@
     "passwordErrorMessages" : "passwordErrorMessages",
     "confirmPasswordErrorMessages" : "confirmPasswordErrorMessages",
     "emailErrorMessages": "emailErrorMessages",
-    "email-already-in-use" : "The email address is already in use by another account."
+    "email-already-in-use" : "The email address is already in use by another account.",
+    "user-not-found" : "There is no user record corresponding to this identifier. The user may have been deleted.",
+    "wrong-password": "The password is invalid or the user does not have a password."
 }

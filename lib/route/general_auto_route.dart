@@ -9,3 +9,8 @@ const homePage = AutoRoute(
   page: HomePage,
   path: '/loginPage',
 );
+
+const searchPage = AutoRoute(
+  page: SearchPage,
+  path: '/loginPage'
+);

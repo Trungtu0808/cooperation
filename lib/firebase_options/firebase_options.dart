@@ -59,7 +59,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyD0gT6eXik9bXmRTCbhl0j1tjAiRNs1lOA',
-    appId: '1:978961219181:android:7937f686473fae67b28964',
+    appId: '1:978961219181:android:d48dd2afb683693eb28964',
     messagingSenderId: '978961219181',
     projectId: 'app-chat-firebase-bd2d6',
     databaseURL: 'https://app-chat-firebase-bd2d6-default-rtdb.firebaseio.com',
@@ -68,13 +68,13 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyDqVOjbTb-UbVPK2V0MVSPOt4nNyJ4Fspc',
-    appId: '1:978961219181:ios:c21be10687438bc8b28964',
+    appId: '1:978961219181:ios:8e42bf5b7539c57fb28964',
     messagingSenderId: '978961219181',
     projectId: 'app-chat-firebase-bd2d6',
     databaseURL: 'https://app-chat-firebase-bd2d6-default-rtdb.firebaseio.com',
     storageBucket: 'app-chat-firebase-bd2d6.appspot.com',
-    androidClientId: '978961219181-r1irthl4ckfk5c1d1ei5j9c9vdgv8edl.apps.googleusercontent.com',
-    iosClientId: '978961219181-v64e9f80p54fajlvsqcl3tb5nj42evr6.apps.googleusercontent.com',
-    iosBundleId: 'com.example.appChatFirebase',
+    androidClientId: '978961219181-m2p7fo95io6hpmes07r41lqil6cuk23c.apps.googleusercontent.com',
+    iosClientId: '978961219181-jlovo3f6adejuh19kpdoma8b4cd2qgda.apps.googleusercontent.com',
+    iosBundleId: 'com.cooperation.app',
   );
 }

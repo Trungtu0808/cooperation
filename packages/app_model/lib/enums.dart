@@ -19,3 +19,13 @@ enum AccountTypes {
   const AccountTypes(this.value);
   final int value;
 }
+
+enum SignUpTypes {
+  @JsonValue(0)
+  SOCIAL_SIGN_UP_TYPES(0),
+  @JsonValue(1)
+  EMAIL_SIGN_UP_TYPES(1);
+
+  const SignUpTypes(this.value);
+  final int value;
+}

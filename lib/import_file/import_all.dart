@@ -59,6 +59,9 @@ export 'package:app_chat_firebase/data/data_import.dart';
 /// app
 export 'package:app_chat_firebase/app.dart';
 
+/// core
+export 'package:app_chat_firebase/core/seft.dart';
+
 
 
 

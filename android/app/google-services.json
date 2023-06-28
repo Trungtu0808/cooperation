@@ -40,10 +40,10 @@
               "client_type": 3
             },
             {
-              "client_id": "978961219181-v64e9f80p54fajlvsqcl3tb5nj42evr6.apps.googleusercontent.com",
+              "client_id": "978961219181-jlovo3f6adejuh19kpdoma8b4cd2qgda.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.example.appChatFirebase"
+                "bundle_id": "com.cooperation.app"
               }
             }
           ]

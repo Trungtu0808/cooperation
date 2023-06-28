@@ -5,9 +5,9 @@ part 'sign_up_req.g.dart';
 class SignUpReq {
   final String? fullName;
   final String? password;
-  final String? email;
+  final String email;
 
-  SignUpReq({this.fullName, this.password, this.email,});
+  SignUpReq({this.fullName, this.password, required this.email,});
 
   Map<String, dynamic> toJson() => _$SignUpReqToJson(this);
 }

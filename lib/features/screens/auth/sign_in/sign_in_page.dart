@@ -201,7 +201,7 @@ class _SignInPageState extends State<SignInPage> {
   void _authListener(BuildContext context, AuthState state){
     debugPrint(state.toString());
     if (state is AuthenticatedState){
-      if ([AuthenticatedType.signIn, AuthenticatedType.signIn,].contains(state.authenticatedType)){
+      if ([AuthenticatedType.signUp, AuthenticatedType.signIn,].contains(state.authenticatedType)){
         context.router.pushAndPopUntil(const HomeRoute(), predicate: (route) => false);
       }
     }

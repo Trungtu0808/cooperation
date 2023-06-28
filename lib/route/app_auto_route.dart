@@ -7,6 +7,7 @@ part 'general_auto_route.dart';
   routes: <AutoRoute>[
     loginPage,
     homePage,
+    searchPage,
   ],
 )
 class $AppAutoRoute {}

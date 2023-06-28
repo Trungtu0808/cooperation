@@ -1,5 +1,5 @@
 import 'package:app_chat_firebase/import_file/import_all.dart';
-import 'package:app_model/features/auth/req/sign_up_req.dart';
+import 'package:app_model/features/auth/resp/signed_in_data.dart';
 
 class AuthRepo {
   late final FireBaseAuthRepo _fireBaseAuthRepo;
@@ -13,16 +13,37 @@ class AuthRepo {
     _authServices = authServices ?? Get.find<AuthServices>();
   }
 
-  Future<void> firebaseRegisterData(SignUpReq signUp) async {
+  Future<UserCredential> firebaseRegisterData({required SignedInData signUp}) async {
     try {
       final data = await _authServices.registerUserWithEmailAndPassword(
-        signUp.fullName ?? '',
-        signUp.email ?? '',
-        signUp.password ?? '',
+        signedInData: signUp,
       );
       return Future.value(data);
-    } on FirebaseAuthException catch (e) {
-      return Future.error(e.code ?? '');
+    } catch (e) {
+      return Future.error(e);
+    }
+  }
+
+  Future<bool> checkIfEmailInUse(String email) async {
+    try {
+      return Future.value(_fireBaseAuthRepo.checkIfEmailInUse(email));
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<SignedInData?> loginWithEmailPassword({
+    required String email,
+    required String password,
+  }) async {
+    try {
+      return Future.value(_authServices.loginWithEmailPassword(
+        email: email,
+        password: password,
+      ));
+    } catch (e) {
+      logger.e(e);
+      return Future.error(e);
     }
   }
 }

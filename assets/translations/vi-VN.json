@@ -18,5 +18,7 @@
     "passwordErrorMessages" : "passwordErrorMessages",
     "confirmPasswordErrorMessages" : "confirmPasswordErrorMessages",
     "emailErrorMessages": "emailErrorMessages",
-    "email-already-in-use" : "Địa chỉ email đã được sử dụng."
+    "email-already-in-use" : "Địa chỉ email đã được sử dụng.",
+    "user-not-found": "Không có bản ghi người dùng nào tương ứng với số nhận dạng này. Người dùng có thể đã bị xóa.",
+    "wrong-password": "Mật khẩu không hợp lệ hoặc người dùng không có mật khẩu."
 }

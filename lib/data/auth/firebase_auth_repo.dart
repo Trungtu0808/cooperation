@@ -158,14 +158,16 @@ class FireBaseAuthRepo {
   /// Creates a new user with the provided [email] and [password].
   ///
   /// Throws a [SignUpWithEmailAndPasswordFailure] if an exception occurs.
-  Future<void> signUp({required String email, required String password}) async {
+  Future<UserCredential> signUp({required String email, required String password}) async {
     try {
-      await _firebaseAuth.createUserWithEmailAndPassword(
+      final userCredential = await _firebaseAuth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
+      return Future.value(userCredential);
     } on FirebaseAuthException catch (e) {
-      throw SignUpWithEmailAndPasswordFailure.fromCode(e.code);
+      return Future.error(SignUpWithEmailAndPasswordFailure.fromCode(e.code));
+      //throw SignUpWithEmailAndPasswordFailure.fromCode(e.code);
     } catch (_) {
       throw const SignUpWithEmailAndPasswordFailure();
     }
@@ -174,15 +176,16 @@ class FireBaseAuthRepo {
   /// Signs in with the provided [email] and [password].
   ///
   /// Throws a [LogInWithEmailAndPasswordFailure] if an exception occurs.
-  Future<void> logInWithEmailAndPassword({
+  Future<UserCredential> logInWithEmailAndPassword({
     required String email,
     required String password,
   }) async {
     try {
-      await _firebaseAuth.signInWithEmailAndPassword(
+      return Future.value(await _firebaseAuth.signInWithEmailAndPassword(
         email: email,
         password: password,
-      );
+      ));
+
     } on FirebaseAuthException catch (error) {
       logger.e(error);
       return Future.error(LogInWithSocialFailure.fromCode(error.code));
@@ -471,6 +474,22 @@ class FireBaseAuthRepo {
       return Future.error(error);
     }
     return Future.error(LogInWithSocialCancel());
+  }
+
+  /// Return true if email address in is use
+  Future<bool> checkIfEmailInUse(String email) async{
+    try{
+      final listEmail = await _firebaseAuth.fetchSignInMethodsForEmail(email);
+      if (listEmail.isNotNullOrEmpty()){
+        return Future.value(true);
+      } else {
+        return Future.value(false);
+      }
+    }on FirebaseAuthException catch(e){
+      return Future.error(LogInWithSocialFailure.fromCode(e.code));
+    } catch (e){
+      return Future.error(e);
+    }
   }
 
   /// Signs out the current user which will emit

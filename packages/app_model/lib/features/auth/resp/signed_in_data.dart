@@ -1,4 +1,5 @@
 import 'package:app_model/app_model_all_file.dart';
+import 'package:app_model/enums.dart';
 
 part 'signed_in_data.g.dart';
 
@@ -10,6 +11,8 @@ class SignedInData {
   @JsonKey(name: 'Groups')
   final List<Map<String, dynamic>>? groups;
   final String? uid;
+  @JsonKey(defaultValue: SignUpTypes.EMAIL_SIGN_UP_TYPES)
+  final SignUpTypes? signUpTypes;
 
   SignedInData({
     this.email,
@@ -17,6 +20,7 @@ class SignedInData {
     this.password,
     this.groups,
     this.uid,
+    this.signUpTypes,
   });
 
   factory SignedInData.fromJson(Map<String, dynamic> json) => _$SignedInDataFromJson(json);
