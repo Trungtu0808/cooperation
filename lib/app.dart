@@ -1,9 +1,10 @@
 import 'package:app_chat_firebase/import_file/import_all.dart';
-import 'package:app_chat_firebase/notifications/notifications_receiver.dart';
 import 'package:app_chat_firebase/widgets/popups.dart';
 import 'package:flutter/material.dart';
 import 'package:app_chat_firebase/features/blocs/auth/auth_bloc.dart';
 import 'package:flutter/services.dart';
+
+import 'features/notifications/notifications_receiver.dart';
 
 class MyApp extends StatefulWidget {
   final AppAutoRoute appRoute;
@@ -14,8 +15,15 @@ class MyApp extends StatefulWidget {
   State<MyApp> createState() => _MyAppState();
 }
 
-class _MyAppState extends State<MyApp> {
+class _MyAppState extends State<MyApp> with WidgetsBindingObserver{
   final _signedInData = Get.find<UserSecureStorage>().signedInData;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
   @override
   Widget build(BuildContext context) {
     return EasyLocalization(
@@ -85,6 +93,6 @@ class _MyAppState extends State<MyApp> {
   @override
   void dispose() {
     super.dispose();
-    Hive.close();
+    WidgetsBinding.instance.removeObserver(this);
   }
 }

@@ -32,6 +32,7 @@ Future<void> _appDataProvider()async{
 
   // local storage
   Get.put<UserSecureStorage>(userSecureStorage, permanent: true);
+  Get.put<LocalNotificationService>(LocalNotificationService(), permanent: true);
 
   // data repo
   Get.lazyPut<FireBaseAuthRepo>(() => FireBaseAuthRepo(), fenix: true);

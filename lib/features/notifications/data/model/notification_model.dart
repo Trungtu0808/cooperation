@@ -1,4 +1,4 @@
-import 'package:app_chat_firebase/notifications/domain/entity/notification_entity.dart';
+import 'package:app_chat_firebase/features/notifications/domain/entity/notification_entity.dart';
 import 'package:app_model/app_model_all_file.dart';
 
 part 'notification_model.g.dart';

@@ -1,5 +1,5 @@
+import 'package:app_chat_firebase/features/notifications/domain/entity/notification_entity.dart';
 import 'package:app_chat_firebase/import_file/import_all.dart';
-import 'package:app_chat_firebase/notifications/domain/entity/notification_entity.dart';
 import 'package:flutter/cupertino.dart';
 
 class NotificationsUtils {

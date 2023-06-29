@@ -1,9 +1,9 @@
 import 'package:app_chat_firebase/import_file/import_all.dart';
-import 'package:app_chat_firebase/notifications/core/service/notification_utils.dart';
-import 'package:app_chat_firebase/notifications/domain/entity/notification_entity.dart';
 import 'package:flutter/material.dart';
 
+import 'core/service/notification_utils.dart';
 import 'data/model/notification_payload.dart';
+import 'domain/entity/notification_entity.dart';
 import 'presentation/widget/app_notification.dart';
 
 class NotificationsReceiver extends StatefulWidget {
@@ -41,7 +41,7 @@ class _NotificationsReceiverState extends State<NotificationsReceiver> {
     );
   }
 
-  void _onNotificationTab(Map<String, dynamic>? data) {
+  void _onNotificationTab(Map<String, dynamic>? data) async{
     if (data == null) {
       return;
     }
@@ -50,6 +50,8 @@ class _NotificationsReceiverState extends State<NotificationsReceiver> {
       if (payload is NotificationSignInPayLoad) {
         _handleResponseSignInAccount(payload);
       }
+
+      await Future.delayed(const Duration(milliseconds: 500));
       final notification = NotificationEntity.fromJson(data);
       if (_findCurrentContext() == null) {
         return;
