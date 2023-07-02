@@ -31,8 +31,7 @@ Future<void> _appService() async{
   // await Firebase.initializeApp(
   //   options: DI.provide<FirebaseOptions>(),
   // );
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
+  await Firebase.initializeApp();
 
 }
 

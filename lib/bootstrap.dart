@@ -22,7 +22,9 @@ class AppBlocObserver extends BlocObserver {
 }
 
 Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
+  WidgetsFlutterBinding.ensureInitialized();
 
+  await setupAppDependencies();
   // buildConfigs = await AppMethodChannel.getBuildConfig();
   // final env = DI.environmentFromFlavor(buildConfigs.flavor);
   // await initDI(env);
@@ -55,45 +57,22 @@ Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
   //   _onError,
   // );
 
-  // Bloc.observer = AppBlocObserver();
-  // runApp(
-  //   EasyLocalization(
-  //     supportedLocales: const [
-  //       AppLocale.enLocale,
-  //       AppLocale.viLocale,
-  //     ],
-  //     path: 'assets/translations',
-  //     fallbackLocale: AppLocale.defaultLocale,
-  //     // assetLoader: CodegenLoader(),
-  //     child: await builder(),
-  //   ),
-  // );
-  // Bloc.observer = AppBlocObserver();
-  BlocOverrides.runZoned(() async{
-    await runZonedGuarded(
-            () async {
-          WidgetsFlutterBinding.ensureInitialized();
-
-          await setupAppDependencies();
-          runApp(
-            EasyLocalization(
-              supportedLocales: const [
-                AppLocale.enLocale,
-                AppLocale.viLocale,
-              ],
-              path: 'assets/translations',
-              fallbackLocale: AppLocale.defaultLocale,
-              // assetLoader: CodegenLoader(),
-              child: await builder(),
-            ),
-          );
-          FlutterError.onError = (details) {
-            log(details.exceptionAsString(), stackTrace: details.stack);
-          };
-        },
-        _onError,
-    );
-  });
+  FlutterError.onError = (details) {
+    log(details.exceptionAsString(), stackTrace: details.stack);
+  };
+  Bloc.observer = AppBlocObserver();
+  runApp(
+    EasyLocalization(
+      supportedLocales: const [
+        AppLocale.enLocale,
+        AppLocale.viLocale,
+      ],
+      path: 'assets/translations',
+      fallbackLocale: AppLocale.defaultLocale,
+      // assetLoader: CodegenLoader(),
+      child: await builder(),
+    ),
+  );
 
 }
 
