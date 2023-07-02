@@ -31,12 +31,16 @@ class SignedInData {
     String? fullName,
     String? password,
     String? uid,
+    SignUpTypes? signUpTypes,
+    List<Map<String, dynamic>>? groups,
   }) {
     return SignedInData(
       email: email ?? this.email,
       password: password ?? this.password,
       fullName: fullName ?? this.fullName,
         uid : uid ?? this.uid,
+      signUpTypes: signUpTypes ?? this.signUpTypes,
+      groups: groups ?? this.groups,
     );
   }
 }

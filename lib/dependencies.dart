@@ -1,6 +1,9 @@
 import 'package:app_chat_firebase/data/device/device_repo.dart';
 import 'package:app_chat_firebase/import_file/import_all.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:get_it/get_it.dart';
+
+final getIt = GetIt.instance;
 
 Future<void> setupAppDependencies()async{
   logger.i('SERVICE starting...');
@@ -23,6 +26,14 @@ Future<void> _appService() async{
   await Hive.initFlutter();
   await Hive.openBox(AppConstant.keyBoxSetting);
   Hive.registerAdapter(AppConfigModelAdapter());
+
+  //Firebase
+  // await Firebase.initializeApp(
+  //   options: DI.provide<FirebaseOptions>(),
+  // );
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
+
 }
 
 Future<void> _appDataProvider()async{
@@ -33,6 +44,7 @@ Future<void> _appDataProvider()async{
   // local storage
   Get.put<UserSecureStorage>(userSecureStorage, permanent: true);
   Get.put<LocalNotificationService>(LocalNotificationService(), permanent: true);
+  //Get.put<FirebaseNotificationService>(FirebaseNotificationService.instance, permanent: true);
 
   // data repo
   Get.lazyPut<FireBaseAuthRepo>(() => FireBaseAuthRepo(), fenix: true);

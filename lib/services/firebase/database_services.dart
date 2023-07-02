@@ -20,21 +20,38 @@ class DatabaseServices {
     required SignInDataFirestore signInDataFirestore,
   }) async {
     final fcmTokenReq = await Get.find<DeviceRepo>().getFCMTokenReq();
-    return await userCollection
-        .doc(uid)
-        .set(signInDataFirestore.copyWith(fcmTokenReq: fcmTokenReq, uid: uid,).toJson());
+    // final checkToken = await _checkToken(
+    //   token: fcmTokenReq.deviceToken,
+    //   email: signInDataFirestore.signedInData?.email,
+    // );
+    return await userCollection.doc(uid).set(signInDataFirestore
+        .copyWith(
+          fcmTokenReq: fcmTokenReq,
+          uid: uid,
+        )
+        .toJson());
   }
 
-  Future<SignInDataFirestore?> gettingEmailData(String email) async {
+  Future<SignInDataFirestore?> gettingEmailData(String? email) async {
     SignInDataFirestore? signInDataFirestore;
     await userCollection.doc(uid).collection('signedInData').where("email", isEqualTo: email).get();
     await userCollection.doc(uid).get().then((value) {
       final firestore = value.data() as Map<String, dynamic>;
-      debugPrint("${SignInDataFirestore.fromJson(firestore).toJson()}");
       signInDataFirestore = SignInDataFirestore.fromJson(firestore);
-    }).catchError((onError){
+    }).catchError((onError) {
       return null;
     });
     return signInDataFirestore;
+  }
+
+  Future<bool> _checkToken({
+    String? token,
+    String? email,
+  }) async {
+    final firestore = await gettingEmailData(email);
+    if (firestore == null) {
+      return false;
+    }
+    return firestore.fcmTokenReq?.deviceToken == token;
   }
 }

@@ -1,4 +1,5 @@
 import 'package:app_chat_firebase/import_file/import_all.dart';
+import 'package:app_model/enums.dart';
 import 'package:app_model/features/auth/req/sign_up_req.dart';
 import 'package:app_model/features/auth/resp/signed_in_data.dart';
 import 'package:flutter/cupertino.dart';
@@ -21,6 +22,7 @@ class SignInCubit extends Cubit<SignInState> {
         fullName: userName,
         password: password,
         email: email,
+        signUpTypes: SignUpTypes.EMAIL_SIGN_UP_TYPES,
       );
       final userCredential = await _authRepo.firebaseRegisterData(signUp: signUp, );
       final signedInData = SignedInData(
@@ -28,6 +30,7 @@ class SignInCubit extends Cubit<SignInState> {
         password: password,
         fullName: userName,
         uid: userCredential.user?.uid,
+        signUpTypes: signUp.signUpTypes
       );
 
       emit(SignUpSuccessState(signedInData));
@@ -45,6 +48,7 @@ class SignInCubit extends Cubit<SignInState> {
         password: password,
         fullName: logIn?.fullName,
         uid: logIn?.uid,
+        signUpTypes: SignUpTypes.EMAIL_SIGN_UP_TYPES,
       );
       emit(SignInSuccessState(signedInData));
     }catch(e){

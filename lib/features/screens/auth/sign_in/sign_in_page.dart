@@ -189,7 +189,6 @@ class _SignInPageState extends State<SignInPage> {
   void _socialAuthSignInListener(BuildContext context, SocialAuthState state){
     _isLoading.value = state is SocialSigningInState;
     if (state is SocialSignInCanceled){
-      debugPrint(state.toString());
       context.showErrorPopup(msg: state.msg ?? '');
     } else if (state is SocialSignInSuccessful){
       _onSocialSignInSuccessful(context, state.data);
@@ -199,7 +198,6 @@ class _SignInPageState extends State<SignInPage> {
   }
 
   void _authListener(BuildContext context, AuthState state){
-    debugPrint(state.toString());
     if (state is AuthenticatedState){
       if ([AuthenticatedType.signUp, AuthenticatedType.signIn,].contains(state.authenticatedType)){
         context.router.pushAndPopUntil(const HomeRoute(), predicate: (route) => false);

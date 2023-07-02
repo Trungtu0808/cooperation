@@ -15,14 +15,16 @@ class AuthServices {
     try {
 
       final userCredential = await _firebaseAuth.logInWithEmailAndPassword(email: email, password: password,);
-      final dataService = DatabaseServices(uid: userCredential.user!.uid);
+      final uid = userCredential.user!.uid;
+
+      final dataService = DatabaseServices(uid: uid);
       if (userCredential.user != null){
         var data = await dataService.gettingEmailData(email);
-        if (data == null){
-          await dataService.updateUserData(signInDataFirestore: SignInDataFirestore().copyWith(
-            signedInData: SignedInData().copyWith(email: email, password: password),
-          )).then((value) => data = value);
-        }
+        dataService.updateUserData(signInDataFirestore: SignInDataFirestore().copyWith(
+          signedInData: SignedInData().copyWith(email: email, password: password, uid: uid),
+        )).then((value) => data = value);
+
+
         return data?.signedInData;
       }
       return null;
@@ -57,8 +59,6 @@ class AuthServices {
       await DatabaseServices(uid: userCredential.user?.uid).updateUserData(
         signInDataFirestore: SignInDataFirestore().copyWith(
           signedInData: signedInData.copyWith(uid: userCredential.user?.uid),
-          //fcmTokenReq: fcmTokenReq,
-          //uid: userCredential.user?.uid,
           profilePic: userCredential.user?.photoURL,
         ),
       );

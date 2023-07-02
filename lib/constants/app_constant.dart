@@ -2,12 +2,22 @@ import 'dart:ui';
 
 class AppConstant {
   AppConstant._();
-  
-  static const defaultLocale = Locale('vi', 'VN');
 
   static const databaseUserName = 'users';
   static const databaseGroupName = 'Groups';
 
   static const keyBoxSetting = 'KEY_BOX_SETTING';
 
+  static const buildConfigInvokeMethod = 'buildConfigInvokeMethod';
+
+  static const appMethodChannel = 'COOPERATION_CHANNEL';
+
+}
+
+class AppLocale {
+  AppLocale._();
+
+  static const defaultLocale = Locale('vi', 'VN');
+  static const viLocale = Locale('vi', 'VN');
+  static const enLocale = Locale('en', 'US');
 }

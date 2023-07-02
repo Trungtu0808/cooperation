@@ -1,6 +1,7 @@
 export 'package:app_chat_firebase/shared/constant_firebase.dart';
 export 'package:flutter_local_notifications/flutter_local_notifications.dart';
 export 'package:firebase_messaging/firebase_messaging.dart';
+export 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
 /// packages
 export 'package:firebase_core/firebase_core.dart';
@@ -61,6 +62,9 @@ export 'package:app_chat_firebase/app.dart';
 
 /// core
 export 'package:app_chat_firebase/core/seft.dart';
+
+///DI
+export 'package:app_chat_firebase/di/di.dart';
 
 
 

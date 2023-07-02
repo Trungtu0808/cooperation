@@ -1,7 +1,6 @@
 import 'package:app_chat_firebase/data/device/device_repo.dart';
 import 'package:app_chat_firebase/import_file/import_all.dart';
 import 'package:app_model/app_model_all_file.dart';
-import 'package:app_model/features/auth/resp/sign_in_data_firestore.dart';
 import 'package:app_model/features/auth/resp/signed_in_data.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -18,6 +17,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         super(AuthInitialState()) {
     on<AuthSignInSuccessEvent>((event, emit) async {
       await _userSecureStorage.setSignedInData(event.signedInData);
+      debugPrint("${event.signedInData.toJson()} signed in");
       //await _authRepo.firebaseRegisterData(signUp: event.signedInData);
       emit(AuthenticatedState(authenticatedType: AuthenticatedType.signIn, signedInData: event.signedInData,
       startRoute: _startRoute));

@@ -60,6 +60,7 @@ class SocialAuthCubit extends Cubit<SocialAuthState> {
         email: userCredential?.user?.email,
         fullName: userCredential?.user?.displayName,
         uid: userCredential?.user?.uid,
+        signUpTypes: SignUpTypes.SOCIAL_SIGN_UP_TYPES
       )));
     } catch (e) {
       logger.e(e);

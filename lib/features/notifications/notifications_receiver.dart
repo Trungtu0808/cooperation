@@ -32,6 +32,19 @@ class _NotificationsReceiverState extends State<NotificationsReceiver> {
   }
 
   void _initService() async {
+    // if (kIsWeb) {
+    //   await Firebase.initializeApp(
+    //       options: const FirebaseOptions(
+    //           apiKey: ContantsFireBase.apiKey,
+    //           appId: ContantsFireBase.appId,
+    //           messagingSenderId: ContantsFireBase.messagingSenderId,
+    //           projectId: ContantsFireBase.projectId));
+    // } else {
+    //   await Firebase.initializeApp(
+    //     name: 'app-chat', //AppConfig.appName,
+    //     options: DefaultFirebaseOptions.currentPlatform,
+    //   );
+    // }
     var localNotificationService = Get.find<LocalNotificationService>();
     await localNotificationService.init(notificationPressedCallBack: _onNotificationTab);
     FirebaseNotificationService.instance.init(
