@@ -23,7 +23,7 @@ class SocialAuthCubit extends Cubit<SocialAuthState> {
     if (currentUser != null) {
       _firebaseAuth.signOut();
     }
-    //UserCredential? credential;
+    UserCredential? credential;
     UserCredential? userCredential;
     String? fullName;
     try {

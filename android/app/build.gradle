@@ -21,26 +21,47 @@ if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
 
-apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.firebase.crashlytics'
 apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
-def keystoreProperties = new Properties()
-def keystorePropertiesFile = rootProject.file('key.properties')
-if (keystorePropertiesFile.exists()) {
-    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
-}
-
 android {
     signingConfigs {
-        release {
-            keyAlias keystoreProperties['keyAlias']
-            keyPassword keystoreProperties['keyPassword']
-            storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
-            storePassword keystoreProperties['storePassword']
+        debug {
+            storeFile file('../keystore/testing_keystore.jks')
+            storePassword 'testing'
+            keyPassword 'testing'
+            keyAlias 'upload'
+        }
+        dev {
+            storeFile file('../keystore/testing_keystore.jks')
+            storePassword 'testing'
+            keyPassword 'testing'
+            keyAlias 'upload'
+        }
+        stag {
+            storeFile file('../keystore/testing_keystore.jks')
+            storePassword 'testing'
+            keyPassword 'testing'
+            keyAlias 'upload'
+        }
+        prod {
+            def keyPropertiesFile = rootProject.file('key.properties')
+            def keyProperties = new Properties()
+            if (keyPropertiesFile.exists()) {
+                keyPropertiesFile.withReader('UTF-8') { reader ->
+                    keyProperties.load(reader)
+                }
+            }
+            storeFile file('../keystore/release_keystore.jks')
+            storePassword keyProperties.getProperty('filePassword')
+            keyPassword keyProperties.getProperty('aliasPassword')
+            keyAlias keyProperties.getProperty('aliasName')
         }
     }
+//    namespace "com.cooperation.app"
     compileSdkVersion 33
     ndkVersion flutter.ndkVersion
 
@@ -59,25 +80,65 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "com.cooperation.app"
+//        applicationId "com.cooperation.app"
         // You can update the following values to match your application needs.
-        // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-build-configuration.
+        // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
         minSdkVersion 21
-        targetSdkVersion 31
+        targetSdkVersion 33
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         multiDexEnabled true
     }
 
     buildTypes {
+        debug {
+            minifyEnabled false
+            shrinkResources false
+            productFlavors.all { flavor ->
+                def flavorName = flavor.name
+                flavor.signingConfig = signingConfigs.getByName(flavorName)
+            }
+        }
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig signingConfigs.debug
+            minifyEnabled false
+            shrinkResources false
+            productFlavors.all { flavor ->
+                def flavorName = flavor.name
+                flavor.signingConfig = signingConfigs.getByName(flavorName)
+            }
+            ndk {
+                abiFilters 'armeabi-v7a','arm64-v8a','x86_64'
+            }
         }
     }
-//    resValue "string", "app_name", "Cooperation"
-
+    flavorDimensions "flavor"
+    productFlavors {
+        prod {
+            applicationId "com.starhealth.app"
+            resValue "string", "app_name", "Cooperation"
+//            resValue "string", "deeplink_host", "Cooperation.com"
+            resValue "string", "facebook_app_id", "568158235495065"
+            // NOTE: The scheme needs to start with `fb` and then your ID.
+            resValue "string", "fb_login_protocol_scheme", "fb568158235495065"
+            resValue "string", "facebook_client_token", "8a9eb7fce4c47dd5988ec547b37897c4"
+        }
+        dev {
+            applicationId "com.cooperation.appDev"
+            resValue "string", "app_name", "Cooperation Dev"
+//            resValue "string", "deeplink_host", "cooperation.com"
+            resValue "string", "facebook_app_id", "2007991432870834"
+            resValue "string", "fb_login_protocol_scheme", "fb2007991432870834"
+            resValue "string", "facebook_client_token", "6ed681abb6933a10743ba34fc46ae056"
+        }
+        stag {
+            applicationId "com.cooperation.appStag"
+            resValue "string", "app_name", "Cooperation Stag"
+//            resValue "string", "deeplink_host", "cooperation.com"
+            resValue "string", "facebook_app_id", "2007991432870834"
+            resValue "string", "fb_login_protocol_scheme", "fb2007991432870834"
+            resValue "string", "facebook_client_token", "6ed681abb6933a10743ba34fc46ae056"
+        }
+    }
 }
 
 flutter {
@@ -86,8 +147,15 @@ flutter {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation platform('com.google.firebase:firebase-bom:31.5.0')
-    implementation 'com.google.firebase:firebase-analytics-ktx:21.2.2'
-    implementation 'com.google.firebase:firebase-auth-ktx:22.0.0'
+
+    implementation 'com.google.firebase:firebase-auth:latest.release'
+    implementation 'com.android.support:multidex:2.0.1'
+
     implementation 'com.facebook.android:facebook-android-sdk:latest.release'
+
+    // Import the BoM for the Firebase platform
+    implementation(platform("com.google.firebase:firebase-bom:32.1.1"))
+    // Declare the dependency for the Cloud Firestore library
+    // When using the BoM, you don't specify versions in Firebase library dependencies
+    implementation("com.google.firebase:firebase-firestore-ktx")
 }

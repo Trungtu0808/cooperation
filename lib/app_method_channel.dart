@@ -6,7 +6,7 @@ abstract class AppMethodChannel {
   static const _platform = MethodChannel(AppConstant.appMethodChannel);
 
   static Future<BuildConfigs> getBuildConfig() async {
-    final result = await _platform.invokeMethod(AppConstant.buildConfigInvokeMethod) as Map;
+    final result = await _platform.invokeMethod(AppConstant.getBuildConfigs) as Map;
     final flavorValue = result['flavor'] as String;
     final flavor = Flavor.fromString(flavorValue);
     if (flavor == null) {

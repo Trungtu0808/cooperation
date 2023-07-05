@@ -1,4 +1,4 @@
-// import 'package:app_chat_firebase/dependencies.dart';
+import 'package:app_chat_firebase/dependencies.dart';
 import 'package:app_chat_firebase/build_configs.dart';
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
@@ -12,14 +12,14 @@ const stag = Environment('stag');
 )
 
 Future initDI(Environment environment) async{
-  //$initGetIt(named: DI.getIt, environment: environment.name);
-  await DI.getIt.allReady();
+  getIt.$initGetIt(environment: environment.name);
+  await getIt.allReady();
 }
 abstract class DI {
-  static final _getIt = GetIt.instance;
-  static GetIt get getIt => _getIt;
+  static final _getIt = getIt;
+  static GetIt get getItDI => _getIt;
 
-  static T provide<T extends Object>({String? instanceName}) => getIt.get<T>(
+  static T provide<T extends Object>({String? instanceName}) => getItDI.get<T>(
         instanceName: instanceName,
       );
 

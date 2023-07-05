@@ -72,9 +72,9 @@ class UserSecureStorage {
     );
   }
 
-  // String? get token {
-  //   return _signedInData?.token;
-  // }
+  String? get token {
+    return _signedInData?.token;
+  }
 
   String? get email {
     return _signedInData?.email;
@@ -109,9 +109,9 @@ class UserSecureStorage {
     return _box.put(_countLoginResumeKey, countLoginResume);
   }
 
-  // Future<void> updateToken(String refreshToken) async {
-  //   _signedInData = _signedInData?.copyWith(token: refreshToken);
-  //   await _putObject(key: _signedInDataKey, object: _signedInData);
-  // }
+  Future<void> updateToken(String refreshToken) async {
+    _signedInData = _signedInData?.copyWith(token: refreshToken);
+    await _putObject(key: _signedInDataKey, object: _signedInData);
+  }
 
 }

@@ -24,7 +24,7 @@ class _NotificationsReceiverState extends State<NotificationsReceiver> {
   @override
   void initState() {
     super.initState();
-    _initService();
+   _initService();
   }
 
   BuildContext? _findCurrentContext() {

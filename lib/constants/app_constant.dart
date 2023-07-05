@@ -8,7 +8,7 @@ class AppConstant {
 
   static const keyBoxSetting = 'KEY_BOX_SETTING';
 
-  static const buildConfigInvokeMethod = 'buildConfigInvokeMethod';
+  static const getBuildConfigs = 'getBuildConfigs';
 
   static const appMethodChannel = 'COOPERATION_CHANNEL';
 

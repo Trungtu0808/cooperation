@@ -7,10 +7,10 @@ class DeviceRepo {
   Future<FCMTokenReq> getFCMTokenReq()async{
     try{
       var deviceID = await AppUtils.getDeviceID();
-      var fcmToken = await FirebaseNotificationService.instance.getFCMToken();
+      // var fcmToken = await FirebaseNotificationService.instance.getFCMToken();
       return Future.value(FCMTokenReq(
         deviceID: deviceID,
-        deviceToken: fcmToken,
+        //deviceToken: fcmToken,
         deviceIosID: await getIosVoipToken(),
         type: 'MOBILEAPP'
       ));
@@ -32,6 +32,6 @@ class DeviceRepo {
   }
 
   void removeToken(){
-    return FirebaseNotificationService.instance.removeToken();
+    // return FirebaseNotificationService.instance.removeToken();
   }
 }

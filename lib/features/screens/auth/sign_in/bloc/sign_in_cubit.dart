@@ -1,8 +1,8 @@
+import 'package:app_chat_firebase/data/device/device_repo.dart';
 import 'package:app_chat_firebase/import_file/import_all.dart';
 import 'package:app_model/enums.dart';
-import 'package:app_model/features/auth/req/sign_up_req.dart';
+import 'package:app_model/features/auth/req/signed_req.dart';
 import 'package:app_model/features/auth/resp/signed_in_data.dart';
-import 'package:flutter/cupertino.dart';
 part 'sign_in_state.dart';
 
 class SignInCubit extends Cubit<SignInState> {
@@ -15,22 +15,24 @@ class SignInCubit extends Cubit<SignInState> {
     required String userName,
     required String password,
     required String email,
+    SignUpTypes? signUpTypes,
   }) async {
     try {
       emit(SigningInState());
-      final signUp = SignedInData(
+      final signUp = SignedReq(
         fullName: userName,
         password: password,
         email: email,
-        signUpTypes: SignUpTypes.EMAIL_SIGN_UP_TYPES,
       );
       final userCredential = await _authRepo.firebaseRegisterData(signUp: signUp, );
+      final fcmTokenReq = await Get.find<DeviceRepo>().getFCMTokenReq();
       final signedInData = SignedInData(
         email: email,
         password: password,
         fullName: userName,
         uid: userCredential.user?.uid,
-        signUpTypes: signUp.signUpTypes
+        signUpTypes: signUpTypes ?? SignUpTypes.EMAIL_SIGN_UP_TYPES,
+        deviceToken: fcmTokenReq.deviceToken,
       );
 
       emit(SignUpSuccessState(signedInData));

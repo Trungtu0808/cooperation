@@ -1,6 +1,6 @@
-import 'dart:developer';
 import 'package:app_chat_firebase/build_configs.dart';
 import 'package:flutter/material.dart';
+import 'app_method_channel.dart';
 import 'dependencies.dart';
 import 'import_file/import_all.dart';
 
@@ -16,50 +16,17 @@ class AppBlocObserver extends BlocObserver {
   @override
   void onError(BlocBase<dynamic> bloc, Object error, StackTrace stackTrace) {
     log('onError(${bloc.runtimeType}, $error, $stackTrace)');
-    _onError(error, stackTrace);
     super.onError(bloc, error, stackTrace);
   }
 }
 
 Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
   WidgetsFlutterBinding.ensureInitialized();
-
+  buildConfigs = await AppMethodChannel.getBuildConfig();
+  final env = DI.environmentFromFlavor(buildConfigs.flavor);
+  await initDI(env);
   await setupAppDependencies();
-  // buildConfigs = await AppMethodChannel.getBuildConfig();
-  // final env = DI.environmentFromFlavor(buildConfigs.flavor);
-  // await initDI(env);
 
-
-  // Bloc.observer = AppBlocObserver();
-  // runZonedGuarded(
-  //       () async {
-  //     WidgetsFlutterBinding.ensureInitialized();
-  //     await EasyLocalization.ensureInitialized();
-  //
-  //     await setupAppDependencies();
-  //
-  //     runApp(
-  //       EasyLocalization(
-  //         supportedLocales: const [
-  //           AppLocale.enLocale,
-  //           AppLocale.viLocale,
-  //         ],
-  //         path: 'assets/translations',
-  //         fallbackLocale: AppLocale.defaultLocale,
-  //         // assetLoader: CodegenLoader(),
-  //         child: await builder(),
-  //       ),
-  //     );
-  //     FlutterError.onError = (details) {
-  //       log(details.exceptionAsString(), stackTrace: details.stack);
-  //     };
-  //   },
-  //   _onError,
-  // );
-
-  FlutterError.onError = (details) {
-    log(details.exceptionAsString(), stackTrace: details.stack);
-  };
   Bloc.observer = AppBlocObserver();
   runApp(
     EasyLocalization(
@@ -76,14 +43,4 @@ Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
 
 }
 
-Future<void> _onError(Object error, StackTrace stack) async {
-  logger.e('Application', error, stack);
-  try {
-    if (FirebaseCrashlytics.instance.isCrashlyticsCollectionEnabled) {
-      await FirebaseCrashlytics.instance.recordError(error, stack);
-    }
-  } catch (e) {
-    logger.e(e);
-  }
-}
 

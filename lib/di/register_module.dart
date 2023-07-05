@@ -1,7 +1,10 @@
 import 'package:app_chat_firebase/di/di.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:injectable/injectable.dart';
-import 'package:app_chat_firebase/firebase_options/firebase_options.dart' as firebase_dev;
+import 'package:app_chat_firebase/firebase_options/firebase_options_dev.dart' as firebase_dev;
+import 'package:app_chat_firebase/firebase_options/firebase_options_stag.dart' as firebase_stag;
+import 'package:app_chat_firebase/firebase_options/firebase_options.dart' as firebase_prod;
+
 import 'dependency_names.dart';
 
 @module
@@ -60,9 +63,12 @@ abstract class RegisterModule {
 
   // Android Package Name
   @dev
+  @Named(DependencyNames.androidPackageName)
+  String get androidPackageNameDev => '';
+
   @stag
   @Named(DependencyNames.androidPackageName)
-  String get androidPackageNameTest => '';
+  String get androidPackageNameStag => '';
 
   @prod
   @Named(DependencyNames.androidPackageName)
@@ -70,9 +76,12 @@ abstract class RegisterModule {
 
   // IOS Bundle Identifier
   @dev
+  @Named(DependencyNames.iosBundleIdentifier)
+  String get iosBundleIdentifierDev => '';
+
   @stag
   @Named(DependencyNames.iosBundleIdentifier)
-  String get iosBundleIdentifierTest => '';
+  String get iosBundleIdentifierStag => '';
 
   @prod
   @Named(DependencyNames.iosBundleIdentifier)
@@ -80,9 +89,12 @@ abstract class RegisterModule {
 
   // App Store ID
   @dev
+  @Named(DependencyNames.iosAppStoreId)
+  String get iosAppStoreIdDev => '';
+
   @stag
   @Named(DependencyNames.iosAppStoreId)
-  String get iosAppStoreIdTest => '';
+  String get iosAppStoreIdStag => '';
 
   @prod
   @Named(DependencyNames.iosAppStoreId)
@@ -90,9 +102,11 @@ abstract class RegisterModule {
 
   // Firebase Option
   @dev
+  FirebaseOptions get firebaseOptionDev => firebase_dev.DefaultFirebaseOptions.currentPlatform;
+
   @stag
-  FirebaseOptions get firebaseOptionTest => firebase_dev.DefaultFirebaseOptions.currentPlatform;
+  FirebaseOptions get firebaseOptionStag => firebase_stag.DefaultFirebaseOptions.currentPlatform;
 
   @prod
-  FirebaseOptions get firebaseOptionProd => firebase_dev.DefaultFirebaseOptions.currentPlatform;
+  FirebaseOptions get firebaseOptionProd => firebase_prod.DefaultFirebaseOptions.currentPlatform;
 }

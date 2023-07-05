@@ -1,0 +1,22 @@
+targets:
+  $default:
+    builders:
+      hive_generator|hive_generator:
+        enabled: false
+
+      auto_route_generator|autoRouteGenerator:
+        generate_for:
+          include:
+            - lib/route/app_auto_route.dart
+
+      injectable_generator|injectable_builder:
+        enabled: true
+        generate_for:
+          include:
+            - lib/di/register_module.dart
+
+      injectable_generator|injectable_config_builder:
+        enabled: true
+        generate_for:
+          include:
+            - lib/di/di.dart

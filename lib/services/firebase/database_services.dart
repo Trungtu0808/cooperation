@@ -1,7 +1,6 @@
 import 'package:app_chat_firebase/data/device/device_repo.dart';
 import 'package:app_chat_firebase/import_file/import_all.dart';
 import 'package:app_model/features/auth/resp/sign_in_data_firestore.dart';
-import 'package:flutter/cupertino.dart';
 
 class DatabaseServices {
   DatabaseServices({
@@ -9,7 +8,6 @@ class DatabaseServices {
   });
 
   final String? uid;
-
   final CollectionReference userCollection =
       FirebaseFirestore.instance.collection(AppConstant.databaseUserName);
 
@@ -20,13 +18,16 @@ class DatabaseServices {
     required SignInDataFirestore signInDataFirestore,
   }) async {
     final fcmTokenReq = await Get.find<DeviceRepo>().getFCMTokenReq();
-    // final checkToken = await _checkToken(
-    //   token: fcmTokenReq.deviceToken,
-    //   email: signInDataFirestore.signedInData?.email,
-    // );
+    final checkToken = await _checkToken(
+      token: fcmTokenReq.deviceToken,
+      email: signInDataFirestore.signedInData?.email,
+    );
     return await userCollection.doc(uid).set(signInDataFirestore
         .copyWith(
           fcmTokenReq: fcmTokenReq,
+          signedInData: signInDataFirestore.signedInData?.copyWith(
+            deviceToken: fcmTokenReq.deviceToken,
+          ),
           uid: uid,
         )
         .toJson());

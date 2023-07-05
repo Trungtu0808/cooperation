@@ -1,31 +1,34 @@
 package com.cooperation.app
 
 import android.util.Log
+import androidx.annotation.NonNull
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GetTokenResult
 import com.google.firebase.auth.OAuthCredential
 import com.google.firebase.auth.OAuthProvider
-import io.flutter.embedding.android.FlutterFragmentActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugins.GeneratedPluginRegistrant
+import io.flutter.embedding.android.FlutterFragmentActivity
 
 //class MainActivity: FlutterActivity() {
-//}
+
 //The FragmentActivity class adds a couple of new methods to ensure compatibility with older versions of Android,
 //but other than that, there really isn't much of a difference between the two.
 class MainActivity: FlutterFragmentActivity() {
 
-    //private  val channel = "COOPERATION_CHANNEL"
-    private  val signInAppleChannel = "APPLE_COOPERATION_CHANNEL"
+    private  val channel = "COOPERATION_CHANNEL"
+    private  val signInWithApple = "signInWithApple"
+    private  val getBuildConfigs = "getBuildConfigs";
+
     private val  TAG = MainActivity::class.java.simpleName
 
-    override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
+    override fun configureFlutterEngine(@NonNull flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
         GeneratedPluginRegistrant.registerWith(flutterEngine)
 
-        MethodChannel(flutterEngine.dartExecutor.binaryMessenger, signInAppleChannel).setMethodCallHandler { call, result ->
-            if (call.method == "signInWithApple"){
+        MethodChannel(flutterEngine.dartExecutor.binaryMessenger, channel).setMethodCallHandler { call, result ->
+            if (call.method == signInWithApple){
                 val auth = FirebaseAuth.getInstance()
                 val provider = OAuthProvider.newBuilder("apple.com")
                 provider.scopes = arrayOf("email", "name").toMutableList()
@@ -56,6 +59,16 @@ class MainActivity: FlutterFragmentActivity() {
                         result.error("activitySignIn:onFailure", e.toString(), e.toString())
                     }
                 }
+            }
+            else  if (call.method == getBuildConfigs) {
+                result.success(
+                    hashMapOf(
+                        "flavor" to BuildConfig.FLAVOR,
+                        "appId" to BuildConfig.APPLICATION_ID,
+                    )
+                )
+            } else {
+                result.notImplemented()
             }
         }
     }

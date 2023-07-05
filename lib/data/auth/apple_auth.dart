@@ -52,7 +52,7 @@ class AppleAuth{
       ],
       nonce: nonce,
     );
-    
+
     final familyName = appleCredential.familyName;
     final givenName = appleCredential.givenName;
 

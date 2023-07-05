@@ -1,5 +1,6 @@
 import 'package:app_model/app_model_all_file.dart';
 import 'package:app_model/enums.dart';
+import 'package:copy_with_extension/copy_with_extension.dart';
 
 part 'signed_in_data.g.dart';
 
@@ -13,6 +14,8 @@ class SignedInData {
   final String? uid;
   @JsonKey(defaultValue: SignUpTypes.EMAIL_SIGN_UP_TYPES)
   final SignUpTypes? signUpTypes;
+  final String? token;
+  final String? deviceToken;
 
   SignedInData({
     this.email,
@@ -21,6 +24,8 @@ class SignedInData {
     this.groups,
     this.uid,
     this.signUpTypes,
+    this.token,
+    this.deviceToken,
   });
 
   factory SignedInData.fromJson(Map<String, dynamic> json) => _$SignedInDataFromJson(json);
@@ -33,6 +38,8 @@ class SignedInData {
     String? uid,
     SignUpTypes? signUpTypes,
     List<Map<String, dynamic>>? groups,
+    String? token,
+    String? deviceToken,
   }) {
     return SignedInData(
       email: email ?? this.email,
@@ -41,6 +48,8 @@ class SignedInData {
         uid : uid ?? this.uid,
       signUpTypes: signUpTypes ?? this.signUpTypes,
       groups: groups ?? this.groups,
+      token: token?? this.token,
+      deviceToken: deviceToken?? this.deviceToken,
     );
   }
 }

@@ -390,7 +390,8 @@ class FireBaseAuthRepo {
     if (Platform.isAndroid) {
       logger.i('Sign-in Apple: Android');
       try {
-        const platform = MethodChannel('APPLE_COOPERATION_CHANNEL');
+        //const platform = MethodChannel('APPLE_COOPERATION_CHANNEL');
+        const platform = MethodChannel('COOPERATION_CHANNEL');
         final token = await platform.invokeMethod('signInWithApple');
 
         final appleProvider = _firebaseAuth.currentUser?.providerData

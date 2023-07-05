@@ -32,8 +32,10 @@ enum FilterMessageResult {
 Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // If you're going to use other Firebase services in the background, such as Firestore,
   // make sure you call `initializeApp` before using other Firebase services.
-  await Firebase.initializeApp(options:  DefaultFirebaseOptions.currentPlatform);
-  FirebaseMessaging.instance.getInitialMessage();
+  // await Firebase.initializeApp(options:  DefaultFirebaseOptions.currentPlatform);
+
+  await Firebase.initializeApp(options:  DI.provide<FirebaseOptions>());
+
 
   // In here you can perform logic such as HTTP requests, perform IO operations (e.g. updating local storage)
   logger.i("Handling a background message: ${message.notification?.title}");
@@ -97,7 +99,7 @@ class FirebaseNotificationService {
     }
   }
 
-  
+
   Future<void> _setupMessageListener({
     required FilterMessage filterMessage,
   }) async {

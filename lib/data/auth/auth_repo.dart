@@ -1,4 +1,6 @@
 import 'package:app_chat_firebase/import_file/import_all.dart';
+import 'package:app_model/enums.dart';
+import 'package:app_model/features/auth/req/signed_req.dart';
 import 'package:app_model/features/auth/resp/signed_in_data.dart';
 
 class AuthRepo {
@@ -13,10 +15,10 @@ class AuthRepo {
     _authServices = authServices ?? Get.find<AuthServices>();
   }
 
-  Future<UserCredential> firebaseRegisterData({required SignedInData signUp}) async {
+  Future<UserCredential> firebaseRegisterData({required SignedReq signUp, SignUpTypes? signUpTypes}) async {
     try {
       final data = await _authServices.registerUserWithEmailAndPassword(
-        signedInData: signUp,
+        signedReq: signUp,
       );
       return Future.value(data);
     } catch (e) {
