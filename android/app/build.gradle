@@ -114,7 +114,7 @@ android {
     flavorDimensions "flavor"
     productFlavors {
         prod {
-            applicationId "com.starhealth.app"
+            applicationId "com.cooperation.app"
             resValue "string", "app_name", "Cooperation"
 //            resValue "string", "deeplink_host", "Cooperation.com"
             resValue "string", "facebook_app_id", "568158235495065"
